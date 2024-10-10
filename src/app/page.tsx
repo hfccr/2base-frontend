@@ -1,7 +1,6 @@
 "use client";
 
-import Connect from "@/components/Connect";
-import { WalletDefault } from "@coinbase/onchainkit/wallet";
+import Hero from "@/components/Hero";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 
 function App() {
@@ -42,9 +41,8 @@ function App() {
         ))}
         <div>{status}</div>
         <div>{error?.message}</div>
-        <WalletDefault />
-        <Connect />
       </div>
+      <Hero />
     </>
   );
 }

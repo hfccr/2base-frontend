@@ -1,13 +1,20 @@
 import "./globals.css";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 import "@coinbase/onchainkit/styles.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 import { type ReactNode } from "react";
 import { cookieToInitialState } from "wagmi";
+import { Container, CssBaseline } from "@mui/material";
 
 import { getConfig } from "../wagmi";
 import { Providers } from "./providers";
+import Header from "@/components/Header";
+import ColorModeHandler from "@/components/ColorModeHandler";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,8 +30,14 @@ export default function RootLayout(props: { children: ReactNode }) {
   );
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Providers initialState={initialState}>{props.children}</Providers>
+      <body>
+        <ColorModeHandler>
+          <CssBaseline />
+          <Providers initialState={initialState}>
+            <Header />
+            <Container>{props.children}</Container>
+          </Providers>
+        </ColorModeHandler>
       </body>
     </html>
   );
