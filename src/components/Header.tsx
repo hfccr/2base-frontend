@@ -23,15 +23,15 @@ import Image from "next/image";
 const pages = [
   {
     title: "Invite",
-    href: "/dapp/invite",
+    href: "/dapp/send",
   },
   {
     title: "Join",
     href: "/dapp/join",
   },
   {
-    title: "Tokens",
-    href: "/dapp/tokens",
+    title: "Leaderboard",
+    href: "/dapp/leaderboard",
   },
 ];
 
@@ -92,7 +92,7 @@ export default function Header() {
                     >
                       <motion.div
                         className="container"
-                        whileHover={{ scale: 1.2, rotate: 20 }}
+                        whileHover={{ scale: 1.2, rotate: 180 }}
                         whileTap={{
                           scale: 0.8,
                           rotate: -40,
@@ -107,7 +107,7 @@ export default function Header() {
                         }}
                       >
                         <Image
-                          src="/twist.svg"
+                          src="/bridge.svg"
                           alt="logo-image"
                           width={uptoMedium ? 32 : 72}
                           height={uptoMedium ? 32 : 72}
@@ -133,7 +133,7 @@ export default function Header() {
                           },
                         }}
                       >
-                        based23
+                        2base
                       </Typography>
                       <Typography
                         variant="h3"
@@ -143,7 +143,7 @@ export default function Header() {
                           display: { xs: "none", md: "flex", lg: "none" },
                         }}
                       >
-                        based23
+                        2base
                       </Typography>
                     </Box>
                   </Stack>
@@ -195,7 +195,7 @@ export default function Header() {
                     flexGrow: 1,
                   }}
                 >
-                  based23
+                  2base
                 </Typography>
                 <Typography
                   variant="h6"
@@ -207,7 +207,7 @@ export default function Header() {
                     flexGrow: 1,
                   }}
                 >
-                  based23
+                  2base
                 </Typography>
                 <Box
                   sx={{
