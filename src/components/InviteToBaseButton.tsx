@@ -7,6 +7,11 @@ import { parseEther } from "viem";
 import {
   Transaction,
   TransactionButton,
+  TransactionSponsor,
+  TransactionToast,
+  TransactionToastAction,
+  TransactionToastIcon,
+  TransactionToastLabel,
 } from "@coinbase/onchainkit/transaction";
 import { encodeFunctionData, Hex } from "viem";
 import { hardhat } from "wagmi/chains";
@@ -19,29 +24,36 @@ interface InviteToBaseButtonProps {
 const registryContractAddress: Hex = Addresses.Registry as Hex;
 const registryContractAbi = Registry.abi;
 
-// export function InviteToBaseOck({ provider, id }: InviteToBaseButtonProps) {
-//   const encodedInviteData = encodeFunctionData({
-//     abi: registryContractAbi,
-//     functionName: "invite",
-//     args: [{ provider, id }],
-//   });
+export function InviteToBaseOck({ provider, id }: InviteToBaseButtonProps) {
+  const encodedInviteData = encodeFunctionData({
+    abi: registryContractAbi,
+    functionName: "invite",
+    args: [{ provider, id }],
+  });
 
-//   const calls = [
-//     {
-//       to: registryContractAddress,
-//       data: encodedInviteData,
-//     },
-//   ];
-//   return (
-//     <Transaction
-//       chainId={hardhat.id}
-//       calls={calls}
-//       onStatus={(status) => console.log("Transaction status:", status)}
-//     >
-//       <TransactionButton />
-//     </Transaction>
-//   );
-// }
+  const calls = [
+    {
+      to: registryContractAddress,
+      data: encodedInviteData,
+      value: parseEther("0.0001"),
+    },
+  ];
+  return (
+    <Transaction
+      chainId={hardhat.id}
+      calls={calls}
+      onStatus={(status) => console.log("Transaction status:", status)}
+    >
+      <TransactionButton />
+      <TransactionSponsor />
+      <TransactionToast>
+        <TransactionToastIcon />
+        <TransactionToastLabel />
+        <TransactionToastAction />
+      </TransactionToast>
+    </Transaction>
+  );
+}
 
 export const InviteToBaseButton = ({
   provider,
