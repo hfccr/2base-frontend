@@ -16,7 +16,10 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
-import { InviteToBaseButton } from "./InviteToBaseButton";
+import {
+  InviteToBaseButton,
+  // InviteToBaseOck
+} from "./InviteToBaseButton";
 
 export default function SendToWeb2() {
   const [provider, setProvider] = useState(Provider.GITHUB);
@@ -74,6 +77,7 @@ export default function SendToWeb2() {
             </Stack>
             <Box sx={{ textAlign: "center" }}>
               <InviteToBaseButton provider={provider} id={profile} />
+              {/* <InviteToBaseOck provider={provider} id={profile} /> */}
             </Box>
           </Stack>
         </FormControl>
