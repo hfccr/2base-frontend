@@ -289,7 +289,7 @@ export const getDesignTokens = (mode: "light" | "dark") =>
         }),
       },
       h2: {
-        fontFamily: ['"Unbounded Variable"', ...systemFont].join(","),
+        fontFamily: ['"Paytone One"', ...systemFont].join(","),
         fontSize: "clamp(1.5rem, 0.9643rem + 1.4286vw, 2.25rem)",
         fontWeight: 600,
         lineHeight: 44 / 36,
@@ -297,13 +297,13 @@ export const getDesignTokens = (mode: "light" | "dark") =>
         color: mode === "dark" ? grey[100] : blueDark[700],
       },
       h3: {
-        fontFamily: ['"Unbounded Variable"', ...systemFont].join(","),
+        fontFamily: ['"Paytone One"', ...systemFont].join(","),
         fontSize: defaultTheme.typography.pxToRem(36),
         lineHeight: 44 / 36,
         letterSpacing: 0.2,
       },
       h4: {
-        fontFamily: ['"Unbounded Variable"', ...systemFont].join(","),
+        fontFamily: ['"Paytone One"', ...systemFont].join(","),
         fontSize: defaultTheme.typography.pxToRem(30),
         lineHeight: 42 / 28,
         letterSpacing: 0.2,

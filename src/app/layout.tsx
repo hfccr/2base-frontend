@@ -10,11 +10,13 @@ import { headers } from "next/headers";
 import { type ReactNode } from "react";
 import { cookieToInitialState } from "wagmi";
 import { Container, CssBaseline } from "@mui/material";
-
 import { getConfig } from "../wagmi";
 import { Providers } from "./providers";
 import Header from "@/components/Header";
 import ColorModeHandler from "@/components/ColorModeHandler";
+import "@fontsource-variable/unbounded";
+import "@fontsource/syncopate";
+import "@fontsource/paytone-one";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -234,8 +234,14 @@ export default function Header() {
                         <Button
                           onClick={handleCloseNavMenu}
                           color="inherit"
-                          sx={{ my: 4, display: "block", mx: { md: 0, lg: 2 } }}
-                          size={uptoMedium ? "small" : "large"}
+                          sx={{
+                            my: 4,
+                            display: "block",
+                            mx: { md: 0, lg: 2 },
+                            fontSize: "x-large",
+                          }}
+                          // size={uptoMedium ? "small" : "large"}
+                          size="large"
                           variant={
                             selectedIndex === pageIndex ? "outlined" : "text"
                           }
@@ -254,7 +260,6 @@ export default function Header() {
                   alignItems: "center",
                 }}
               >
-                <ToggleColorMode />
                 <Box sx={{ minWidth: 180, textAlign: "center" }}>
                   <Connect />
                 </Box>
@@ -263,6 +268,7 @@ export default function Header() {
           </Toolbar>
         </Container>
       </AppBar>
+      <ToggleColorMode />
     </Box>
   );
 }
