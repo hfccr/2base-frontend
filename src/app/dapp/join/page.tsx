@@ -1,5 +1,6 @@
 "use client";
 import ProfileBalanceCheck from "@/components/ProfileBalanceCheck";
+import ReclaimRequest from "@/components/ReclaimRequest";
 import {
   Container,
   Stack,
@@ -20,6 +21,7 @@ export default function Page() {
         <Typography variant="h2">Join Base</Typography>
         <Divider />
         <ProfileBalanceCheck />
+        <ReclaimRequest />
       </Stack>
     </Container>
   );
