@@ -38,6 +38,19 @@ const rows = [
   createData("twitter", addresses[4], 356, 16),
 ];
 
+// Function to generate random GitHub or Twitter profile names
+const generateRandomProfileName = (provider: string) => {
+  const githubNames = ["dev_master", "open_source_pro", "code_wizard", "bug_slayer"];
+  const twitterNames = ["ayush", "ayush", "ayush", "ayush"];
+
+  if (provider === "github") {
+    return githubNames[Math.floor(Math.random() * githubNames.length)];
+  } else if (provider === "twitter") {
+    return twitterNames[Math.floor(Math.random() * twitterNames.length)];
+  }
+  return "unknown_user";
+};
+
 // Sort rows by inviteCount
 const sortedRows = rows.sort((a, b) => b.inviteCount - a.inviteCount);
 
@@ -73,8 +86,8 @@ export default function InvitedTable() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Provider</TableCell>
-              <TableCell align="right">Invited Name/Address</TableCell>
+              <TableCell>Profile</TableCell>
+              <TableCell align="right">Address</TableCell>
               <TableCell align="right">InviteCount</TableCell>
               <TableCell align="right">ClaimedCount</TableCell>
             </TableRow>
@@ -85,10 +98,9 @@ export default function InvitedTable() {
                 key={row.address} // Use address as the key for uniqueness
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                {/* Separate Provider and Name into different cells */}
+                {/* Show only the provider logo */}
                 <TableCell component="th" scope="row">
-                  {getProviderIcon(row.provider)}
-                  {row.provider}
+                  {getProviderIcon(row.provider)}-{generateRandomProfileName(row.provider)}
                 </TableCell>
                 <TableCell align="right">
                   <NameWrapper address={row.address} />
