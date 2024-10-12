@@ -100,7 +100,7 @@ export default function InvitedTable() {
               >
                 {/* Show only the provider logo */}
                 <TableCell component="th" scope="row">
-                  {getProviderIcon(row.provider)}-{generateRandomProfileName(row.provider)}
+                  {getProviderIcon(row.provider)}{generateRandomProfileName(row.provider)}
                 </TableCell>
                 <TableCell align="right">
                   <NameWrapper address={row.address} />
