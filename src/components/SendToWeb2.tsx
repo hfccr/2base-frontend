@@ -1,17 +1,16 @@
+import { useState } from "react";
 import {
-  Typography,
   TextField,
   Select,
   Stack,
   FormControl,
   MenuItem,
-  IconButton,
-  InputLabel,
   Button,
   Paper,
   Box,
   Container,
   InputAdornment,
+  SelectChangeEvent,
 } from "@mui/material";
 
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -20,27 +19,41 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
 
 export default function SendToWeb2() {
+  const [provider, setProvider] = useState("github");
+  const handleProviderChange = (event: SelectChangeEvent) => {
+    setProvider(event.target.value);
+  };
+  const [profile, setProfile] = useState("");
+  const handleProfileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setProfile(event.target.value);
+  };
   return (
     <Container sx={{ textAlign: "center", marginTop: 4 }}>
       <Paper variant="outlined" sx={{ padding: 8 }}>
         <FormControl fullWidth>
           <Stack direction="column" spacing={4}>
             <Stack direction={{ lg: "row", md: "column" }} spacing={4}>
-              <Select labelId="platform" id="select-platform" value={"github"}>
+              <Select
+                labelId="platform"
+                id="select-platform"
+                value={provider}
+                onChange={handleProviderChange}
+                sx={{ minWidth: 200 }}
+              >
                 <MenuItem value={"github"}>
                   <GitHubIcon sx={{ mr: 2 }} />
                   GitHub
                 </MenuItem>
-                <MenuItem disabled value={"x"}>
-                  <XIcon sx={{ mr: 2 }} />X (Coming Soon)
+                <MenuItem value={"x"}>
+                  <XIcon sx={{ mr: 2 }} />X
                 </MenuItem>
-                <MenuItem disabled value={"youtube"}>
+                <MenuItem value={"youtube"}>
                   <YouTubeIcon sx={{ mr: 2 }} />
-                  YouTube (Coming Soon)
+                  YouTube
                 </MenuItem>
-                <MenuItem disabled value={"instagram"}>
+                <MenuItem value={"instagram"}>
                   <InstagramIcon sx={{ mr: 2 }} />
-                  Instagram (Coming Soon)
+                  Instagram
                 </MenuItem>
               </Select>
               <TextField
@@ -48,6 +61,8 @@ export default function SendToWeb2() {
                 label="Profile"
                 id="profile"
                 required
+                value={profile}
+                onChange={handleProfileChange}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">@</InputAdornment>
