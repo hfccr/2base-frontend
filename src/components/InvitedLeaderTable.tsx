@@ -1,26 +1,14 @@
-import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import React from "react";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container } from "@mui/material";
 import { useName } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
-import { Container } from "@mui/material";
-
 import GitHubIcon from "@mui/icons-material/GitHub";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import TwitterIcon from "@mui/icons-material/Twitter";  // Twitter icon import
+import TwitterIcon from "@mui/icons-material/Twitter";
 
-// Function to create data rows
 function createData(provider: string, address: `0x${string}`, inviteCount: number, claimedCount: number) {
   return { provider, address, inviteCount, claimedCount };
 }
 
-// Array of addresses (use valid Ethereum addresses)
 const addresses: `0x${string}`[] = [
   "0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1",
   "0x456123456789abcdef123456789abcdef1234567",  
@@ -29,7 +17,6 @@ const addresses: `0x${string}`[] = [
   "0xdef123456789abcdef123456789abcdef123456789", 
 ];
 
-// Create rows of data
 const rows = [
   createData("github", addresses[0], 159, 6),
   createData("twitter", addresses[1], 237, 9),
@@ -38,52 +25,31 @@ const rows = [
   createData("twitter", addresses[4], 356, 16),
 ];
 
-// Function to generate random GitHub or Twitter profile names
 const generateRandomProfileName = (provider: string) => {
   const githubNames = ["dev_master", "open_source_pro", "code_wizard", "bug_slayer"];
-  const twitterNames = ["ayush", "ayush", "ayush", "ayush"];
+  const twitterNames = ["open_source_pro", "open_source_pro", "open_source_pro", "open_source_pro"];
 
-  if (provider === "github") {
-    return githubNames[Math.floor(Math.random() * githubNames.length)];
-  } else if (provider === "twitter") {
-    return twitterNames[Math.floor(Math.random() * twitterNames.length)];
-  }
-  return "unknown_user";
+  return provider === "github" 
+    ? githubNames[Math.floor(Math.random() * githubNames.length)]
+    : twitterNames[Math.floor(Math.random() * twitterNames.length)];
 };
 
-// Sort rows by inviteCount
 const sortedRows = rows.sort((a, b) => b.inviteCount - a.inviteCount);
 
-// Function to return the correct icon based on the provider
 const getProviderIcon = (provider: string) => {
-  switch (provider) {
-    case "github":
-      return <GitHubIcon sx={{ mr: 2 }} />;
-    case "twitter":
-      return <TwitterIcon sx={{ mr: 2 }} />;
-    case "youtube":
-      return <YouTubeIcon sx={{ mr: 2 }} />;
-    case "instagram":
-      return <InstagramIcon sx={{ mr: 2 }} />;
-    default:
-      return null;
-  }
+  return provider === "github" ? <GitHubIcon fontSize="small" /> : <TwitterIcon fontSize="small" />;
 };
 
-// Component to fetch and display the name for each address
 const NameWrapper = ({ address }: { address: `0x${string}` }) => {
   const { data: name, isLoading } = useName({ address, chain: base });
-
-  // Handle loading state
-  if (isLoading) return <span>Loading...</span>;
-  return <span>{name || address}</span>;  // Fallback to the address if no name
+  return isLoading ? <span>Loading...</span> : <span>{name || address}</span>;
 };
 
 export default function InvitedTable() {
   return (
     <Container>
       <TableContainer component={Paper} sx={{ mt: 4 }}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={{ minWidth: 650 }} aria-label="invited users table">
           <TableHead>
             <TableRow>
               <TableCell>Profile</TableCell>
@@ -95,12 +61,14 @@ export default function InvitedTable() {
           <TableBody>
             {sortedRows.map((row) => (
               <TableRow
-                key={row.address} // Use address as the key for uniqueness
+                key={row.address}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                {/* Show only the provider logo */}
                 <TableCell component="th" scope="row">
-                  {getProviderIcon(row.provider)}{generateRandomProfileName(row.provider)}
+                  <span style={{ display: 'flex', alignItems: 'center' }}>
+                    {getProviderIcon(row.provider)}
+                    <span style={{ marginLeft: '8px' }}>{generateRandomProfileName(row.provider)}</span>
+                  </span>
                 </TableCell>
                 <TableCell align="right">
                   <NameWrapper address={row.address} />
