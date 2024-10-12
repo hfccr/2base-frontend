@@ -6,30 +6,28 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {
-  Address,
-  Avatar,
-  Name,
-  Identity,
-  EthBalance,
-} from "@coinbase/onchainkit/identity";
+import { useName } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
 
+// Function to create row data
 function createData(
-  name: string,
+  address: `0x${string}`, // Use the correct type for Ethereum addresses
   inviteCount: number,
-  claimedCount: number,
+  claimedCount: number
 ) {
-  return { name, inviteCount, claimedCount };
+  return { address, inviteCount, claimedCount };
 }
 
-const addresses = [
-  "0x123...abc",
-  "0x456...def",
-  "0x789...ghi",
-  "0xabc...jkl",
-  "0xdef...mno",
+// Array of valid Ethereum addresses
+const addresses: `0x${string}`[] = [
+  "0x02feeb0AdE57b6adEEdE5A4EEea6Cf8c21BeB6B1",
+  "0x456123456789abcdef123456789abcdef1234567",  
+  "0x789abcdef123456789abcdef123456789abcdef123", 
+  "0xabc123456789abcdef123456789abcdef123456789", 
+  "0xdef123456789abcdef123456789abcdef123456789", 
 ];
 
+// Rows of data
 const rows = [
   createData(addresses[0], 159, 6),
   createData(addresses[1], 237, 9),
@@ -38,8 +36,14 @@ const rows = [
   createData(addresses[4], 356, 16),
 ];
 
-// Sort rows by inviteCount (previously calories)
-const sortedRows = rows.sort((a, b) => b.inviteCount - a.inviteCount);
+// Component to fetch and display the name for each address
+const NameWrapper = ({ address }: { address: `0x${string}` }) => {
+  const { data: name, isLoading } = useName({ address, chain: base });
+
+  // Handle loading and error states
+  if (isLoading) return <span>Loading...</span>;
+  return <span>{name || address}</span>;  
+};
 
 export default function InviteeTable() {
   return (
@@ -53,13 +57,11 @@ export default function InviteeTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {sortedRows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
+          {rows.map((row) => (
+            <TableRow key={row.address}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {/* Use the NameWrapper to resolve the name */}
+                <NameWrapper address={row.address} />
               </TableCell>
               <TableCell align="right">{row.inviteCount}</TableCell>
               <TableCell align="right">{row.claimedCount}</TableCell>
