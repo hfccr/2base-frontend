@@ -10,6 +10,7 @@ import { headers } from "next/headers";
 import { type ReactNode } from "react";
 import { cookieToInitialState } from "wagmi";
 import { Container, CssBaseline } from "@mui/material";
+import { Toaster } from "react-hot-toast";
 import { getConfig } from "../wagmi";
 import { Providers } from "./providers";
 import Header from "@/components/Header";
@@ -37,7 +38,10 @@ export default function RootLayout(props: { children: ReactNode }) {
           <CssBaseline />
           <Providers initialState={initialState}>
             <Header />
-            <Container>{props.children}</Container>
+            <Container>
+              <Toaster />
+              {props.children}
+            </Container>
           </Providers>
         </ColorModeHandler>
       </body>

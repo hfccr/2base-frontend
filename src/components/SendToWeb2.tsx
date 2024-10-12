@@ -5,23 +5,23 @@ import {
   Stack,
   FormControl,
   MenuItem,
-  Button,
   Paper,
   Box,
   Container,
   InputAdornment,
   SelectChangeEvent,
 } from "@mui/material";
-
+import { getProviderName, Provider } from "@/util/Providers";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
+import { InviteToBaseButton } from "./InviteToBaseButton";
 
 export default function SendToWeb2() {
-  const [provider, setProvider] = useState("github");
+  const [provider, setProvider] = useState(Provider.GITHUB);
   const handleProviderChange = (event: SelectChangeEvent) => {
-    setProvider(event.target.value);
+    setProvider(parseInt(event.target.value));
   };
   const [profile, setProfile] = useState("");
   const handleProfileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,24 +36,25 @@ export default function SendToWeb2() {
               <Select
                 labelId="platform"
                 id="select-platform"
-                value={provider}
+                value={provider.toString()}
                 onChange={handleProviderChange}
                 sx={{ minWidth: 200 }}
               >
-                <MenuItem value={"github"}>
+                <MenuItem value={Provider.GITHUB}>
                   <GitHubIcon sx={{ mr: 2 }} />
-                  GitHub
+                  {getProviderName(Provider.GITHUB)}
                 </MenuItem>
-                <MenuItem value={"x"}>
-                  <XIcon sx={{ mr: 2 }} />X
+                <MenuItem value={Provider.X}>
+                  <XIcon sx={{ mr: 2 }} />
+                  {getProviderName(Provider.X)}
                 </MenuItem>
-                <MenuItem value={"youtube"}>
+                <MenuItem value={Provider.YOUTUBE}>
                   <YouTubeIcon sx={{ mr: 2 }} />
-                  YouTube
+                  {getProviderName(Provider.YOUTUBE)}
                 </MenuItem>
-                <MenuItem value={"instagram"}>
+                <MenuItem value={Provider.INSTAGRAM}>
                   <InstagramIcon sx={{ mr: 2 }} />
-                  Instagram
+                  {getProviderName(Provider.INSTAGRAM)}
                 </MenuItem>
               </Select>
               <TextField
@@ -72,9 +73,7 @@ export default function SendToWeb2() {
               {/* <TextField label="ETH" type="number" required /> */}
             </Stack>
             <Box sx={{ textAlign: "center" }}>
-              <Button variant="outlined" sx={{ pl: 8, pr: 8 }}>
-                SEND 0.0001 ETH
-              </Button>
+              <InviteToBaseButton provider={provider} id={profile} />
             </Box>
           </Stack>
         </FormControl>
