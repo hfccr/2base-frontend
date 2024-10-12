@@ -1,4 +1,8 @@
 "use client";
+import InvitedTable from "@/components/InvitedLeaderTable";
+import InviteeTable from "@/components/InviteeLeaderTable";
+import Addresses from "@/util/Addresses.json";
+import Registry from "@/util/Registry.json";
 import {
   Breadcrumbs,
   Container,
@@ -6,20 +10,43 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Link from "next/link";
 import React, { useState } from "react";
-import InviteeTable from "@/components/InviteeLeaderTable";
-import InvitedTable from "@/components/InvitedLeaderTable";
-
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { Address } from "viem";
+import { useReadContract } from "wagmi";
 
 export default function Leaderboard() {
-  const [view, setView] = useState('invite');  // Default to 'invite'
+  const [view, setView] = useState("invite"); // Default to 'invite'
+  const {
+    isSuccess,
+    data,
+    isError,
+    isFetching,
+    isFetched,
+    error,
+    failureReason,
+  } = useReadContract({
+    abi: Registry.abi,
+    address: Addresses.Registry as Address,
+    functionName: "getInviteAndClaimedCounts",
+    args: [],
+  });
+
+  console.log({
+    data,
+    isSuccess,
+    isError,
+    isFetched,
+    isFetching,
+    error,
+    failureReason,
+  });
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
-    newView: string,
+    newView: string
   ) => {
     if (newView !== null) {
       setView(newView);
@@ -35,7 +62,7 @@ export default function Leaderboard() {
         </Breadcrumbs>
         <Typography variant="h2">Leaderboard</Typography>
         <Divider />
-        
+
         {/* Toggle Button Group */}
         <div className="flex justify-center">
           <ToggleButtonGroup
@@ -51,7 +78,7 @@ export default function Leaderboard() {
         </div>
 
         {/* Conditional Rendering of Tables */}
-        {view === 'invite' ? <InviteeTable /> : <InvitedTable />}
+        {view === "invite" ? <InviteeTable /> : <InvitedTable />}
       </Stack>
     </Container>
   );
