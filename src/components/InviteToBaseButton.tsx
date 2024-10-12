@@ -63,7 +63,7 @@ export const InviteToBaseButton = ({
       variant="outlined"
       color="secondary"
       onClick={delegate}
-      disabled={isPending}
+      disabled={isPending || isError || isSuccess}
     >
       Invite
     </Button>
