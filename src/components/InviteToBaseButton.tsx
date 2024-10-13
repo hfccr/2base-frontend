@@ -44,7 +44,7 @@ export function InviteToBaseOck({ provider, id }: InviteToBaseButtonProps) {
       calls={calls}
       onStatus={(status) => console.log("Transaction status:", status)}
     >
-      <TransactionButton />
+      <TransactionButton text="Invite To Base" />
       <TransactionSponsor />
       <TransactionToast>
         <TransactionToastIcon />

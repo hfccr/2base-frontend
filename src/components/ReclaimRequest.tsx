@@ -5,10 +5,23 @@ import {
   transformForOnchain,
 } from "@reclaimprotocol/js-sdk";
 import QRCode from "react-qr-code";
+import { Alert, Box, Skeleton } from "@mui/material";
+import { getProviderName } from "./InvitedLeaderTable";
 
-export default function ReclaimRequest() {
+interface ReclaimRequestProps {
+  provider: number;
+  id: string;
+  setAllProofs: Function;
+}
+
+export default function ReclaimRequest({
+  provider,
+  id,
+  setAllProofs,
+}: ReclaimRequestProps) {
   const [requestUrl, setRequestUrl] = useState("");
   const [proofs, setProofs] = useState<any>(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     async function initializeReclaim() {
@@ -30,9 +43,11 @@ export default function ReclaimRequest() {
         onSuccess: (proofs) => {
           console.log("Verification success", proofs);
           setProofs(proofs);
+          setAllProofs(proofs, transformForOnchain(proofs));
         },
         onError: (error) => {
           console.error("Verification failed", error);
+          setError(true);
         },
       });
     }
@@ -42,35 +57,42 @@ export default function ReclaimRequest() {
 
   return (
     <div>
-      <h1>Reclaim Protocol Demo</h1>
-      {requestUrl && (
+      {error && <Alert severity="error">Failed to generate proof</Alert>}
+      {!error && !proofs && requestUrl && (
         <div>
-          <p>Request URL: {requestUrl}</p>
           <div
             style={{
               height: "auto",
               margin: "0 auto",
-              maxWidth: 512,
+              maxWidth: 256,
               width: "100%",
             }}
           >
             <QRCode
-              size={512}
+              size={256}
               style={{ height: "auto", maxWidth: "100%", width: "100%" }}
               value={requestUrl}
               viewBox={`0 0 256 256`}
             />
           </div>
-          <p>Use this URL to start the verification process</p>
         </div>
+      )}
+      {!requestUrl && (
+        <Box sx={{ textAlign: "center", width: "100%" }}>
+          <Skeleton width={256} height={256} />
+        </Box>
       )}
       {proofs && (
         <div>
-          <h2>Verification Successful!</h2>
+          <Alert severity="success">
+            Proof for ownership of {getProviderName(provider)} @{id} generated
+            successfully
+          </Alert>
+          {/* <h2>Verification Successful!</h2>
           <h2>Merke Proof</h2>
           <pre>{JSON.stringify(proofs, null, 2)}</pre>
           <h2>on chain proof</h2>
-          <pre>{JSON.stringify(transformForOnchain(proofs))}</pre>
+          <pre>{JSON.stringify(transformForOnchain(proofs))}</pre> */}
         </div>
       )}
     </div>

@@ -16,6 +16,7 @@ export function getConfig() {
     ssr: true,
     transports: {
       [hardhat.id]: http(),
+      // [baseSepolia.id]: http(),
     },
   });
 }
