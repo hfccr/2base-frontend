@@ -1,36 +1,23 @@
 "use client";
-import { createWalletClient, custom } from "viem";
-import { baseSepolia } from "viem/chains";
-import { useAccount } from "wagmi";
+import { Typography } from "@mui/material";
+import toast from "react-hot-toast";
+import { useAccount, useWriteContract } from "wagmi";
 import reclaimAbi from "../../artifacts/Reclaim.json";
 import { proofReq } from "../../junk/proofRequest";
 
 export default function Test() {
   const { address: account } = useAccount();
-  return (
-    <div
-      onClick={async () => {
-        const walletClient = createWalletClient({
-          chain: baseSepolia,
-          transport: custom(window.ethereum),
-        });
-        if (walletClient && account) {
-          try {
-            const res = walletClient.writeContract({
-              abi: reclaimAbi.abi,
-              functionName: "verifyProof",
-              args: [proofReq],
-              address: "0xF90085f5Fd1a3bEb8678623409b3811eCeC5f6A5",
-              account,
-            });
-            console.log({ res });
-          } catch (e) {
-            console.log({ e });
-          }
-        }
-      }}
-    >
-      Submit
-    </div>
-  );
+  const { isPending, isSuccess, isError, data, writeContract, error } =
+    useWriteContract();
+  const delegate = () => {
+    writeContract({
+      abi: reclaimAbi.abi,
+      address: "0xF90085f5Fd1a3bEb8678623409b3811eCeC5f6A5" as `0x${string}`,
+      functionName: "verifyProof",
+      args: [proofReq],
+    });
+    toast((t) => <Typography>Verifying Profile</Typography>);
+  };
+  console.log({ isPending, isSuccess, isError, data, error });
+  return <div onClick={delegate}>Submit</div>;
 }
