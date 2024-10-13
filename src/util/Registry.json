@@ -279,6 +279,37 @@
             }
           ],
           "internalType": "struct Registry.Profile",
+          "name": "_profile",
+          "type": "tuple"
+        }
+      ],
+      "name": "getInviters",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "internalType": "enum Registry.Provider",
+              "name": "provider",
+              "type": "uint8"
+            }
+          ],
+          "internalType": "struct Registry.Profile",
           "name": "profile",
           "type": "tuple"
         }

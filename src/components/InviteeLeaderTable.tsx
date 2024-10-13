@@ -18,8 +18,8 @@ import Registry from "../util/Registry.json";
 // Define a type for the invitee details
 interface InviteeDetails {
   invitee: string;
-  totalInvites: number;
-  claimedInvites: number;
+  totalInvites: number;  // Use number instead of BigInt for rendering
+  claimedInvites: number;  // Use number instead of BigInt for rendering
 }
 
 // Component to fetch and display the name for each address
@@ -52,7 +52,11 @@ export default function InviteeTable() {
   // Ensure the data is an array of invitee details
   let inviteeDetails: InviteeDetails[] = [];
   if (isSuccess && Array.isArray(data)) {
-    inviteeDetails = data as InviteeDetails[];
+    inviteeDetails = data.map((item: any) => ({
+      invitee: item.invitee,
+      totalInvites: Number(item.totalInvites),  // Convert BigInt to number
+      claimedInvites: Number(item.claimedInvites),  // Convert BigInt to number
+    }));
   }
 
   return (
@@ -80,6 +84,7 @@ export default function InviteeTable() {
     </TableContainer>
   );
 }
+
 
 
 
