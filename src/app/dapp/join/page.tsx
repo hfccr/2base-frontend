@@ -21,7 +21,7 @@ export default function Page() {
         <Typography variant="h2">Join Base</Typography>
         <Divider />
         <ProfileBalanceCheck />
-        <ReclaimRequest />
+        {/* <ReclaimRequest /> */}
       </Stack>
     </Container>
   );
