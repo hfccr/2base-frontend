@@ -31,7 +31,7 @@ export enum Provider {
 // Interface for the invite details
 interface ProfileInviteDetails {
   id: string;  // Unique id for each invitee
-  inviterAddress: `0x${string}`;
+  profileId: `0x${string}`;
   provider: number;
   inviteCount: number;
   claimCount: number;
@@ -99,7 +99,7 @@ export default function InvitedTable() {
   if (isSuccess && Array.isArray(data)) {
     inviteDetails = data.map((profile: any, index: number) => ({
       id: `${index}`,  // Unique id for each row
-      inviterAddress: profile.inviterAddress,
+      profileId: profile.id,
       provider: profile.provider,
       inviteCount: Number(profile.inviteCount),
       claimCount: Number(profile.claimCount),
@@ -111,7 +111,7 @@ export default function InvitedTable() {
     createData(
       profile.id,
       getProviderName(profile.provider),
-      profile.inviterAddress as `0x${string}`,
+      profile.profileId as `0x${string}`,
       profile.inviteCount,
       profile.claimCount
     )
@@ -125,7 +125,7 @@ export default function InvitedTable() {
             <TableRow>
               <TableCell>ID</TableCell> {/* Column for ID */}
               <TableCell>Profile</TableCell>
-              <TableCell align="right">Address</TableCell>
+              <TableCell align="right">Username</TableCell>
               <TableCell align="right">Invite Count</TableCell>
               <TableCell align="right">Claim Count</TableCell>
             </TableRow>
