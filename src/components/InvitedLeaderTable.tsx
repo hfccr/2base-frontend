@@ -65,6 +65,7 @@ export default function InvitedTable() {
     functionName: "getInviters",
     args: [{ provider: Provider.GITHUB, id: 'brijeshbaghal' }],  // Profile struct passed to the contract
   });
+  console.log(data)
 
   // Loading and error handling
   if (isFetching) return <div>Loading inviters...</div>;
