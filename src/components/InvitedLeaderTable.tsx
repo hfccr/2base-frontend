@@ -28,6 +28,15 @@ export enum Provider {
   INSTAGRAM = 3,
 }
 
+// Interface for the invite details
+interface ProfileInviteDetails {
+  id: string;  // Unique id for each invitee
+  profileId: `0x${string}`;
+  provider: number;
+  inviteCount: number;
+  claimCount: number;
+}
+
 // Function to map provider enum to names
 export const getProviderName = (provider: number) => {
   switch (provider) {
@@ -46,12 +55,13 @@ export const getProviderName = (provider: number) => {
 
 // Function to create table rows
 function createData(
+  id: string,
   provider: string,
   address: `0x${string}`,
   inviteCount: number,
   claimCount: number
 ) {
-  return { provider, address, inviteCount, claimCount };
+  return { id, provider, address, inviteCount, claimCount };
 }
 
 // Component to fetch and display the name for each address
@@ -84,17 +94,28 @@ export default function InvitedTable() {
   if (isFetching) return <div>Loading inviters...</div>;
   if (isError) return <div>Error fetching inviters: {error?.message}</div>;
 
-  // Assuming data is an array of ProfileInviteDetails returned from the contract
-  const rows = isSuccess && data
-    ? (data as any[]).map((profile) =>
-        createData(
-          getProviderName(profile.provider),
-          profile.inviterAddress as `0x${string}`,
-          profile.inviteCount,
-          profile.claimCount
-        )
-      )
-    : [];
+  // Mapping data to ProfileInviteDetails with an added 'id'
+  let inviteDetails: ProfileInviteDetails[] = [];
+  if (isSuccess && Array.isArray(data)) {
+    inviteDetails = data.map((profile: any, index: number) => ({
+      id: `${index}`,  // Unique id for each row
+      profileId: profile.id,
+      provider: profile.provider,
+      inviteCount: Number(profile.inviteCount),
+      claimCount: Number(profile.claimCount),
+    }));
+  }
+
+  // Create table rows from the mapped inviteDetails
+  const rows = inviteDetails.map((profile) =>
+    createData(
+      profile.id,
+      getProviderName(profile.provider),
+      profile.profileId as `0x${string}`,
+      profile.inviteCount,
+      profile.claimCount
+    )
+  );
 
   return (
     <Container>
@@ -102,8 +123,9 @@ export default function InvitedTable() {
         <Table sx={{ minWidth: 650 }} aria-label="invited users table">
           <TableHead>
             <TableRow>
+              <TableCell>ID</TableCell> {/* Column for ID */}
               <TableCell>Profile</TableCell>
-              <TableCell align="right">Address</TableCell>
+              <TableCell align="right">Username</TableCell>
               <TableCell align="right">Invite Count</TableCell>
               <TableCell align="right">Claim Count</TableCell>
             </TableRow>
@@ -111,9 +133,12 @@ export default function InvitedTable() {
           <TableBody>
             {rows.map((row) => (
               <TableRow
-                key={row.address}
+                key={row.id}  // Using 'id' as the key
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
+                <TableCell component="th" scope="row">
+                  {row.id}  {/* Display the ID */}
+                </TableCell>
                 <TableCell component="th" scope="row">
                   <span style={{ display: "flex", alignItems: "center" }}>
                     {getProviderIcon(row.provider)}
