@@ -25,7 +25,7 @@ export const proofObj = {
   publicData: {},
 };
 
-export const proofReq = JSON.stringify({
+export const proofReq = {
   claimInfo: {
     provider: proofObj.claimData.provider,
     parameters: proofObj.claimData.parameters,
@@ -40,7 +40,7 @@ export const proofReq = JSON.stringify({
     },
     signatures: proofObj.signatures,
   },
-});
+};
 
 export const proofObjForContract = JSON.stringify({
   claimInfo: {

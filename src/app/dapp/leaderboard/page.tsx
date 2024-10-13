@@ -1,8 +1,6 @@
 "use client";
 import InvitedTable from "@/components/InvitedLeaderTable";
 import InviteeTable from "@/components/InviteeLeaderTable";
-import Addresses from "@/util/Addresses.json";
-import Registry from "@/util/Registry.json";
 import {
   Breadcrumbs,
   Container,
@@ -14,35 +12,9 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Link from "next/link";
 import React, { useState } from "react";
-import { Address } from "viem";
-import { useReadContract } from "wagmi";
 
 export default function Leaderboard() {
   const [view, setView] = useState("invite"); // Default to 'invite'
-  const {
-    isSuccess,
-    data,
-    isError,
-    isFetching,
-    isFetched,
-    error,
-    failureReason,
-  } = useReadContract({
-    abi: Registry.abi,
-    address: Addresses.Registry as Address,
-    functionName: "getInviteAndClaimedCounts",
-    args: [],
-  });
-
-  console.log({
-    data,
-    isSuccess,
-    isError,
-    isFetched,
-    isFetching,
-    error,
-    failureReason,
-  });
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,

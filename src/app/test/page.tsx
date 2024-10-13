@@ -1,12 +1,11 @@
 "use client";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import toast from "react-hot-toast";
-import { useAccount, useWriteContract } from "wagmi";
+import { useWriteContract } from "wagmi";
 import reclaimAbi from "../../artifacts/Reclaim.json";
 import { proofReq } from "../../junk/proofRequest";
 
 export default function Test() {
-  const { address: account } = useAccount();
   const { isPending, isSuccess, isError, data, writeContract, error } =
     useWriteContract();
   const delegate = () => {
@@ -19,5 +18,5 @@ export default function Test() {
     toast((t) => <Typography>Verifying Profile</Typography>);
   };
   console.log({ isPending, isSuccess, isError, data, error });
-  return <div onClick={delegate}>Submit</div>;
+  return <Button onClick={delegate}>Submit</Button>;
 }
