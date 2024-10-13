@@ -13,6 +13,21 @@ import {
 } from "@mui/material";
 import toast from "react-hot-toast";
 import ReclaimRequest from "./ReclaimRequest";
+import { getProviderName } from "./InvitedLeaderTable";
+import {
+  Transaction,
+  TransactionButton,
+  TransactionSponsor,
+  TransactionToast,
+  TransactionToastAction,
+  TransactionToastIcon,
+  TransactionToastLabel,
+} from "@coinbase/onchainkit/transaction";
+import { encodeFunctionData, Hex } from "viem";
+import { hardhat } from "wagmi/chains";
+
+const registryContractAddress: Hex = Addresses.Registry as Hex;
+const registryContractAbi = Registry.abi;
 
 interface ClaimProfileButtonProps {
   disabled: boolean;
@@ -42,10 +57,24 @@ export default function ClaimProfileButton({
     });
     toast((t) => <Typography>Claiming Profile @{profile}</Typography>);
   };
+  const encodedClaimData = encodeFunctionData({
+    abi: registryContractAbi,
+    functionName: "claim",
+    args: [{ provider, id: profile }],
+  });
+
+  const calls = [
+    {
+      to: registryContractAddress,
+      data: encodedClaimData,
+    },
+  ];
   return (
     <>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Claim Profile @{profile}</DialogTitle>
+        <DialogTitle>
+          Claim {getProviderName(provider)} Profile @{profile}
+        </DialogTitle>
         <DialogContent>
           <ReclaimRequest
             provider={provider}
@@ -61,10 +90,23 @@ export default function ClaimProfileButton({
             variant="outlined"
             color="secondary"
             onClick={delegate}
-            disabled={proofs === null}
+            // disabled={proofs === null}
           >
             Claim
           </Button>
+          <Transaction
+            chainId={hardhat.id}
+            calls={calls}
+            onStatus={(status) => console.log("Transaction status:", status)}
+          >
+            <TransactionButton />
+            <TransactionSponsor />
+            <TransactionToast>
+              <TransactionToastIcon />
+              <TransactionToastLabel />
+              <TransactionToastAction />
+            </TransactionToast>
+          </Transaction>
         </DialogActions>
       </Dialog>
       <Button

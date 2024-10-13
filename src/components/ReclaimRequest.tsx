@@ -5,7 +5,8 @@ import {
   transformForOnchain,
 } from "@reclaimprotocol/js-sdk";
 import QRCode from "react-qr-code";
-import { Alert, Skeleton } from "@mui/material";
+import { Alert, Box, Skeleton } from "@mui/material";
+import { getProviderName } from "./InvitedLeaderTable";
 
 interface ReclaimRequestProps {
   provider: number;
@@ -76,11 +77,16 @@ export default function ReclaimRequest({
           </div>
         </div>
       )}
-      {!requestUrl && <Skeleton width={256} height={256} />}
+      {!requestUrl && (
+        <Box sx={{ textAlign: "center", width: "100%" }}>
+          <Skeleton width={256} height={256} />
+        </Box>
+      )}
       {proofs && (
         <div>
           <Alert severity="success">
-            Proof for ownership of @{id} generated successfully
+            Proof for ownership of {getProviderName(provider)} @{id} generated
+            successfully
           </Alert>
           {/* <h2>Verification Successful!</h2>
           <h2>Merke Proof</h2>
