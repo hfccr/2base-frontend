@@ -10,6 +10,9 @@ import {
   Container,
   InputAdornment,
   SelectChangeEvent,
+  Typography,
+  Divider,
+  Chip,
 } from "@mui/material";
 import { getProviderName, Provider } from "@/util/Providers";
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -28,8 +31,15 @@ export default function SendToWeb2() {
     setProfile(event.target.value);
   };
   return (
-    <Container sx={{ textAlign: "center", marginTop: 4 }}>
-      <Paper variant="outlined" sx={{ padding: 8 }}>
+    <Paper variant="outlined" sx={{ padding: 2 }}>
+      <Stack direction="column" spacing={4}>
+        <Box>
+          <Stack direction="row" spacing={2} justifyContent="space-between">
+            <Typography variant="h6">Web2 Creators And Friends</Typography>
+            <Chip label="Sends 0.0001 ETH" />
+          </Stack>
+          <Divider sx={{ width: "100%", marginTop: 2 }} />
+        </Box>
         <FormControl fullWidth>
           <Stack direction="column" spacing={4}>
             <Stack direction={{ lg: "row", md: "column" }} spacing={4}>
@@ -72,12 +82,17 @@ export default function SendToWeb2() {
               />
               {/* <TextField label="ETH" type="number" required /> */}
             </Stack>
-            <Box sx={{ textAlign: "center" }}>
+            <Stack
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              spacing={2}
+            >
               <InviteToBaseOck provider={provider} id={profile} />
-            </Box>
+            </Stack>
           </Stack>
         </FormControl>
-      </Paper>
-    </Container>
+      </Stack>
+    </Paper>
   );
 }
