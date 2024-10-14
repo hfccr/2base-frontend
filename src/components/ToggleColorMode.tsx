@@ -10,7 +10,7 @@ export default function ToggleColorMode() {
   const colorMode = useContext(ColorModeContext);
   return (
     <Fab
-      sx={{ ml: 1, position: "absolute", bottom: 32, right: 32 }}
+      sx={{ ml: 1, position: "fixed", bottom: 32, right: 32 }}
       onClick={colorMode.toggleColorMode}
     >
       {theme.palette.mode === "dark" ? (
