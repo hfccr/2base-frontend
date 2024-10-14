@@ -4,6 +4,7 @@ import Registry from "@/util/Registry.json";
 import Addresses from "@/util/Addresses.json";
 import { parseEther } from "viem";
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -71,7 +72,7 @@ export default function ClaimProfileButton({
   ];
   return (
     <>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
         <DialogTitle>
           Claim {getProviderName(provider)} Profile @{profile}
         </DialogTitle>
@@ -86,27 +87,24 @@ export default function ClaimProfileButton({
           <Button variant="outlined" color="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={delegate}
-            // disabled={proofs === null}
-          >
-            Claim
-          </Button>
-          <Transaction
-            chainId={hardhat.id}
-            calls={calls}
-            onStatus={(status) => console.log("Transaction status:", status)}
-          >
-            <TransactionButton />
-            <TransactionSponsor />
-            <TransactionToast>
-              <TransactionToastIcon />
-              <TransactionToastLabel />
-              <TransactionToastAction />
-            </TransactionToast>
-          </Transaction>
+          <Box sx={{ width: 150 }}>
+            <Transaction
+              chainId={hardhat.id}
+              calls={calls}
+              onStatus={(status) => console.log("Transaction status:", status)}
+            >
+              <TransactionButton
+                text="Claim Profile"
+                disabled={proofs === null}
+              />
+              <TransactionSponsor />
+              <TransactionToast>
+                <TransactionToastIcon />
+                <TransactionToastLabel />
+                <TransactionToastAction />
+              </TransactionToast>
+            </Transaction>
+          </Box>
         </DialogActions>
       </Dialog>
       <Button

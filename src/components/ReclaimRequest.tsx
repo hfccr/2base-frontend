@@ -5,7 +5,7 @@ import {
   transformForOnchain,
 } from "@reclaimprotocol/js-sdk";
 import QRCode from "react-qr-code";
-import { Alert, Box, Skeleton } from "@mui/material";
+import { Alert, Box, Skeleton, Stack } from "@mui/material";
 import { getProviderName } from "./InvitedLeaderTable";
 import { ReclaimAssets } from "./ReclaimAssets";
 
@@ -64,32 +64,40 @@ export default function ReclaimRequest({
   }, []);
 
   return (
-    <div>
+    <>
       {error && <Alert severity="error">Failed to generate proof</Alert>}
-      {!error && !proofs && requestUrl && (
-        <div>
-          <div
-            style={{
-              height: "auto",
-              margin: "0 auto",
-              maxWidth: 256,
-              width: "100%",
-            }}
-          >
-            <QRCode
-              size={256}
-              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-              value={requestUrl}
-              viewBox={`0 0 256 256`}
-            />
-          </div>
-        </div>
-      )}
-      {!requestUrl && (
-        <Box sx={{ textAlign: "center", width: "100%" }}>
-          <Skeleton width={256} height={256} />
+      <Stack direction="column" spacing={4} justifyContent="center">
+        <Alert severity="info">
+          Scan the QR code below with your Android or iOS device. You will need
+          to enable Instant Apps or App Clips depending on your platform.
+        </Alert>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          {!error && !proofs && requestUrl && (
+            <div
+              style={{
+                height: 256,
+                maxWidth: 256,
+                width: 256,
+              }}
+            >
+              <QRCode
+                size={256}
+                style={{ height: "256px", width: "256px" }}
+                value={requestUrl}
+                viewBox={`0 0 256 256`}
+              />
+            </div>
+          )}
+          {!requestUrl && <Skeleton width={256} height={256} />}
         </Box>
-      )}
+      </Stack>
       {proofs && (
         <div>
           <Alert severity="success">
@@ -103,6 +111,6 @@ export default function ReclaimRequest({
           <pre>{JSON.stringify(transformForOnchain(proofs))}</pre> */}
         </div>
       )}
-    </div>
+    </>
   );
 }
