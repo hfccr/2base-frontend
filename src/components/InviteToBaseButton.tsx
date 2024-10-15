@@ -29,12 +29,17 @@ import { getProviderName } from "./InvitedLeaderTable";
 interface InviteToBaseButtonProps {
   provider: number;
   id: string;
+  disabled: boolean;
 }
 
 const registryContractAddress: Hex = Addresses.Registry as Hex;
 const registryContractAbi = Registry.abi;
 
-export function InviteToBaseOck({ provider, id }: InviteToBaseButtonProps) {
+export function InviteToBaseOck({
+  provider,
+  id,
+  disabled,
+}: InviteToBaseButtonProps) {
   const [open, setOpen] = useState(false);
   const encodedInviteData = encodeFunctionData({
     abi: registryContractAbi,
@@ -79,7 +84,7 @@ export function InviteToBaseOck({ provider, id }: InviteToBaseButtonProps) {
           </Box>
         </DialogActions>
       </Dialog>
-      <Button variant="outlined" onClick={handleOpen}>
+      <Button variant="outlined" onClick={handleOpen} disabled={disabled}>
         Invite
       </Button>
     </>

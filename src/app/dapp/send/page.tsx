@@ -18,7 +18,7 @@ import { InvitesSent } from "@/components/InvitesSent";
 
 export default function Send() {
   return (
-    <Container sx={{ mt: 2 }}>
+    <Container sx={{ mt: 2, pb: 8 }}>
       <Stack spacing={2}>
         <Breadcrumbs aria-label="breadcrumb">
           <Link href="/">Home</Link>

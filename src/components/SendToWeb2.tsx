@@ -13,6 +13,7 @@ import {
   Typography,
   Divider,
   Chip,
+  Alert,
 } from "@mui/material";
 import { getProviderName, Provider } from "@/util/Providers";
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -20,6 +21,10 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
 import { InviteToBaseButton, InviteToBaseOck } from "./InviteToBaseButton";
+import { useDebounce } from "use-debounce";
+import { useReadContract } from "wagmi";
+import Registry from "@/util/Registry.json";
+import Addresses from "@/util/Addresses.json";
 
 export default function SendToWeb2() {
   const [provider, setProvider] = useState(Provider.GITHUB);
@@ -27,9 +32,27 @@ export default function SendToWeb2() {
     setProvider(parseInt(event.target.value));
   };
   const [profile, setProfile] = useState("");
+  const [debouncedValue] = useDebounce(profile, 1000);
   const handleProfileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProfile(event.target.value);
   };
+
+  const {
+    isSuccess,
+    data,
+    isError,
+    isFetching,
+    isFetched,
+    error,
+    failureReason,
+  } = useReadContract({
+    abi: Registry.abi,
+    address: Addresses.Registry as `0x${string}`,
+    functionName: "getProfileBalanceAndInviteCount",
+    args: [{ provider, id: debouncedValue }],
+  });
+  const profileData = data as [bigint, bigint, boolean];
+  const disabled = profile.length === 0 || !isSuccess || profileData[2];
   return (
     <Paper variant="outlined" sx={{ padding: 2 }}>
       <Stack direction="column" spacing={4}>
@@ -82,13 +105,22 @@ export default function SendToWeb2() {
               />
               {/* <TextField label="ETH" type="number" required /> */}
             </Stack>
+            <Box sx={{ minHeight: 50 }}>
+              {isSuccess && profileData[2] && (
+                <Alert>Profile already on Base</Alert>
+              )}
+            </Box>
             <Stack
               direction="row"
               justifyContent="center"
               alignItems="center"
               spacing={2}
             >
-              <InviteToBaseOck provider={provider} id={profile} />
+              <InviteToBaseOck
+                provider={provider}
+                id={profile}
+                disabled={disabled}
+              />
             </Stack>
           </Stack>
         </FormControl>
