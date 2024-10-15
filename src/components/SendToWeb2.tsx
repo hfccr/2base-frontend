@@ -107,7 +107,12 @@ export default function SendToWeb2() {
             </Stack>
             <Box sx={{ minHeight: 50 }}>
               {isSuccess && profileData[2] && (
-                <Alert>Profile already on Base</Alert>
+                <Alert severity="warning">Profile already on Base</Alert>
+              )}
+              {isSuccess && !profileData[2] && (
+                <Alert severity="info">
+                  Profile has {profileData[1].toString()} invites currently
+                </Alert>
               )}
             </Box>
             <Stack
