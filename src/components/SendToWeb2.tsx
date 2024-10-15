@@ -109,11 +109,14 @@ export default function SendToWeb2() {
               {isSuccess && profileData[2] && (
                 <Alert severity="warning">Profile already on Base</Alert>
               )}
-              {isSuccess && !profileData[2] && (
-                <Alert severity="info">
-                  Profile has {profileData[1].toString()} invites currently
-                </Alert>
-              )}
+              {isSuccess &&
+                profile.length > 0 &&
+                debouncedValue.length > 0 &&
+                !profileData[2] && (
+                  <Alert severity="info">
+                    Profile has {profileData[1].toString()} invites currently
+                  </Alert>
+                )}
             </Box>
             <Stack
               direction="row"
