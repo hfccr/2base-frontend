@@ -4,6 +4,7 @@ import Registry from "@/util/Registry.json";
 import Addresses from "@/util/Addresses.json";
 import { parseEther } from "viem";
 import {
+  Alert,
   Box,
   Button,
   Dialog,
@@ -26,6 +27,7 @@ import {
 } from "@coinbase/onchainkit/transaction";
 import { encodeFunctionData, Hex } from "viem";
 import { hardhat } from "wagmi/chains";
+import { LifecycleStatus } from "@coinbase/onchainkit/transaction";
 
 const registryContractAddress: Hex = Addresses.Registry as Hex;
 const registryContractAbi = Registry.abi;
@@ -43,6 +45,7 @@ export default function ClaimProfileButton({
 }: ClaimProfileButtonProps) {
   const [open, setOpen] = useState(false);
   const [proofs, setProofs] = useState<any>(null);
+  const [claimSuccess, setClaimSuccess] = useState(false);
   const setAllProofs = (proofs: any, solidityProofs: any) => {
     setProofs({ proofs, solidityProofs });
   };
@@ -70,6 +73,11 @@ export default function ClaimProfileButton({
       data: encodedClaimData,
     },
   ];
+
+  const handleStatusChange = (status: LifecycleStatus) => {
+    console.log(status);
+  };
+
   return (
     <>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
@@ -77,25 +85,34 @@ export default function ClaimProfileButton({
           Claim {getProviderName(provider)} Profile @{profile}
         </DialogTitle>
         <DialogContent>
-          <ReclaimRequest
-            provider={provider}
-            id={profile}
-            setAllProofs={setAllProofs}
-          />
+          {!claimSuccess && (
+            <ReclaimRequest
+              provider={provider}
+              id={profile}
+              setAllProofs={setAllProofs}
+            />
+          )}
+          {claimSuccess && (
+            <Alert severity="success">
+              You have successfully claimed {getProviderName(provider)} profile
+              @{profile}
+            </Alert>
+          )}
         </DialogContent>
         <DialogActions>
           <Button variant="outlined" color="secondary" onClick={handleClose}>
-            Cancel
+            {claimSuccess ? "Close" : "Cancel"}
           </Button>
-          <Box sx={{ width: 150 }}>
+          <Box sx={{ width: 250 }}>
             <Transaction
               chainId={hardhat.id}
               calls={calls}
-              onStatus={(status) => console.log("Transaction status:", status)}
+              onStatus={handleStatusChange}
+              onSuccess={() => setClaimSuccess(true)}
             >
               <TransactionButton
                 text="Claim Profile"
-                disabled={proofs === null}
+                // disabled={proofs === null}
               />
               <TransactionSponsor />
               <TransactionToast>
