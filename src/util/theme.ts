@@ -449,7 +449,6 @@ export function getThemedComponents(): ThemeOptions {
             }),
           ],
           icon: {
-            paddingTop: 12,
             paddingBottom: 0,
           },
         },
