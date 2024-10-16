@@ -1,4 +1,13 @@
-import { Button, Typography } from "@mui/material";
+import { useState } from "react";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from "@mui/material";
 import toast from "react-hot-toast";
 import { useWriteContract } from "wagmi";
 import Registry from "@/util/Registry.json";
@@ -15,16 +24,23 @@ import {
 } from "@coinbase/onchainkit/transaction";
 import { encodeFunctionData, Hex } from "viem";
 import { hardhat } from "wagmi/chains";
+import { getProviderName } from "./InvitedLeaderTable";
 
 interface InviteToBaseButtonProps {
   provider: number;
   id: string;
+  disabled: boolean;
 }
 
 const registryContractAddress: Hex = Addresses.Registry as Hex;
 const registryContractAbi = Registry.abi;
 
-export function InviteToBaseOck({ provider, id }: InviteToBaseButtonProps) {
+export function InviteToBaseOck({
+  provider,
+  id,
+  disabled,
+}: InviteToBaseButtonProps) {
+  const [open, setOpen] = useState(false);
   const encodedInviteData = encodeFunctionData({
     abi: registryContractAbi,
     functionName: "invite",
@@ -38,20 +54,40 @@ export function InviteToBaseOck({ provider, id }: InviteToBaseButtonProps) {
       value: parseEther("0.0001"),
     },
   ];
+  const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true);
   return (
-    <Transaction
-      chainId={hardhat.id}
-      calls={calls}
-      onStatus={(status) => console.log("Transaction status:", status)}
-    >
-      <TransactionButton text="Invite To Base" />
-      <TransactionSponsor />
-      <TransactionToast>
-        <TransactionToastIcon />
-        <TransactionToastLabel />
-        <TransactionToastAction />
-      </TransactionToast>
-    </Transaction>
+    <>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+        <DialogTitle>
+          Invite {getProviderName(provider)} Profile @{id}{" "}
+        </DialogTitle>
+        <DialogContent>
+          <Typography>Send 0.0001 ETH to support @{id}?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Box sx={{ width: 250 }}>
+            <Transaction
+              chainId={hardhat.id}
+              calls={calls}
+              onStatus={(status) => console.log("Transaction status:", status)}
+            >
+              <TransactionButton text="Invite" />
+              <TransactionSponsor />
+              <TransactionToast>
+                <TransactionToastIcon />
+                <TransactionToastLabel />
+                <TransactionToastAction />
+              </TransactionToast>
+            </Transaction>
+          </Box>
+        </DialogActions>
+      </Dialog>
+      <Button variant="outlined" onClick={handleOpen} disabled={disabled}>
+        Invite
+      </Button>
+    </>
   );
 }
 
