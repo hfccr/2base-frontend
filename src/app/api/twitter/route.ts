@@ -25,7 +25,8 @@ export async function POST(req: NextRequest) {
   console.log("hello to test");
   // if (req.method === "POST") {
 
-  const client = new TwitterApi(process.env.TWITTER_BEARER_TOKEN || "");
+  const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN || "");
+  const readOnlyClient = twitterClient.readOnly;
 
   const { twitterHandle, message, transactionHash } = await req.json();
 
@@ -42,7 +43,7 @@ export async function POST(req: NextRequest) {
     const web3Message = "hello";
 
     // Send Twitter notification based on Web3 event using twitter-api-v2
-    await client.v2.tweet(`@${twitterHandle} ${web3Message}`);
+    await twitterClient.v2.tweet(`@${twitterHandle} ${web3Message}`);
 
     return NextResponse.json({
       status: 200,
