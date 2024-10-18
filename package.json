@@ -33,7 +33,9 @@
     "react-hot-toast": "^2.4.1",
     "react-qr-code": "^2.0.15",
     "twit": "^2.2.11",
+    "twitter-api-sdk": "^1.2.1",
     "twitter-api-v2": "^1.18.0",
+    "twitter-v2": "^1.1.0",
     "use-debounce": "^10.0.3",
     "viem": "latest",
     "wagmi": "latest"
