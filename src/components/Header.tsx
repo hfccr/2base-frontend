@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Stack, useMediaQuery, useTheme } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -23,6 +23,7 @@ import { useAccount, useReadContract } from "wagmi";
 import Registry from "../util/Registry.json"; // Import your ABI
 import Addresses from "../util/Addresses.json";
 import { Address } from "viem";
+import axios from "axios";
 
 
 const pages = [
@@ -33,7 +34,7 @@ const pages = [
 
 export default function Header() {
   const pathname = usePathname();
-  const {address}=useAccount();
+  const { address } = useAccount();
   const selectedIndex = pages.findIndex(
     (page) => pathname.indexOf(page.href) >= 0
   );
@@ -53,10 +54,23 @@ export default function Header() {
     abi: Registry.abi,
     address: Addresses.Registry as Address,
     functionName: "getPoints",
-    args: [address], 
+    args: [address],
   });
-  console.log(pointsData,isError,isFetching);
-  
+  console.log(pointsData, isError, isFetching);
+
+  useEffect(() => {
+    async function fetch() {
+      try {
+        const res = await axios.post('/api/twitter', {})
+        console.log(res)
+      } catch (e) { console.log({ e }) }
+    }
+  fetch();
+    return () => {
+
+    }
+  }, [])
+
 
 
   const points = pointsData ? Number(pointsData) : 0; // Convert to number for rendering

@@ -1,6 +1,6 @@
 import { baseSepolia } from "viem/chains";
 
-export default async function handler(req:any, res:any) {
+export default async function githubnotification(req:any, res:any) {
     if (req.method === 'POST') {
         const { username, message } = req.body; // Change here: taking username and message
         const token = process.env.GITHUB_TOKEN; // Store your GitHub token in an environment variable
