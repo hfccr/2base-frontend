@@ -1,8 +1,16 @@
-import { useState } from "react";
-import { useWriteContract } from "wagmi";
-import Registry from "@/util/Registry.json";
+import { proofReq } from "@/junk/proofRequest";
 import Addresses from "@/util/Addresses.json";
-import { parseEther } from "viem";
+import Registry from "@/util/Registry.json";
+import {
+  LifecycleStatus,
+  Transaction,
+  TransactionButton,
+  TransactionSponsor,
+  TransactionToast,
+  TransactionToastAction,
+  TransactionToastIcon,
+  TransactionToastLabel,
+} from "@coinbase/onchainkit/transaction";
 import {
   Alert,
   Box,
@@ -13,21 +21,12 @@ import {
   DialogTitle,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 import toast from "react-hot-toast";
-import ReclaimRequest from "./ReclaimRequest";
-import { getProviderName } from "./InvitedLeaderTable";
-import {
-  Transaction,
-  TransactionButton,
-  TransactionSponsor,
-  TransactionToast,
-  TransactionToastAction,
-  TransactionToastIcon,
-  TransactionToastLabel,
-} from "@coinbase/onchainkit/transaction";
 import { encodeFunctionData, Hex } from "viem";
-import { hardhat } from "wagmi/chains";
-import { LifecycleStatus } from "@coinbase/onchainkit/transaction";
+import { useWriteContract } from "wagmi";
+import { getProviderName } from "./InvitedLeaderTable";
+import ReclaimRequest from "./ReclaimRequest";
 
 const registryContractAddress: Hex = Addresses.Registry as Hex;
 const registryContractAbi = Registry.abi;
@@ -49,22 +48,25 @@ export default function ClaimProfileButton({
   const setAllProofs = (proofs: any, solidityProofs: any) => {
     setProofs({ proofs, solidityProofs });
   };
+  console.log({ proofs });
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const { isPending, isSuccess, isError, writeContract } = useWriteContract();
+  const { isPending, isSuccess, isError, error, writeContract } =
+    useWriteContract();
   const delegate = () => {
     writeContract({
       abi: Registry.abi,
       address: Addresses.Registry as `0x${string}`,
-      functionName: "claim",
-      args: [{ provider, id: profile }],
+      functionName: "claimWithProof",
+      args: [proofs.solidityProofs, { provider, id: profile }],
     });
     toast((t) => <Typography>Claiming Profile @{profile}</Typography>);
   };
+  console.log({ isPending, isSuccess, isError, error });
   const encodedClaimData = encodeFunctionData({
     abi: registryContractAbi,
-    functionName: "claim",
-    args: [{ provider, id: profile }],
+    functionName: "claimWithProof",
+    args: [proofs?.solidityProofs || proofReq, { provider, id: profile }],
   });
 
   const calls = [
@@ -105,7 +107,6 @@ export default function ClaimProfileButton({
           </Button>
           <Box sx={{ width: 250 }}>
             <Transaction
-              chainId={hardhat.id}
               calls={calls}
               onStatus={handleStatusChange}
               onSuccess={() => setClaimSuccess(true)}

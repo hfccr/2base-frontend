@@ -69,7 +69,7 @@ export function InviteToBaseOck({
           <Button onClick={handleClose}>Cancel</Button>
           <Box sx={{ width: 250 }}>
             <Transaction
-              chainId={hardhat.id}
+            
               calls={calls}
               onStatus={(status) => console.log("Transaction status:", status)}
             >
