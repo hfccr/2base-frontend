@@ -21,7 +21,7 @@ export default function Send() {
   return (
     <Container sx={{ mt: 2, pb: 8 }}>
       <Stack spacing={2}>
-        <Breadcrumbs aria-label="breadcrumb">
+        {/* <Breadcrumbs aria-label="breadcrumb">
           <Link href="/">Home</Link>
           <Link href="/dapp/send">Invite</Link>
         </Breadcrumbs>
@@ -36,7 +36,7 @@ export default function Send() {
           <Box sx={{ flexGrow: 1, textAlign: "right" }}>
             <Chip label="Invite Web2 On Base" size="medium" />
           </Box>
-        </Stack>
+        </Stack> */}
         <Divider />
         <Stack direction={{ md: "column", lg: "row" }} spacing={4}>
           <Stack
