@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Stack, useMediaQuery, useTheme } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -20,6 +20,7 @@ import { hexToRgb } from "@/util/hexToRgb";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Points from "./Points";
+import axios from "axios";
 
 const pages = [
   { title: "Invite", href: "/dapp/send" },
@@ -42,6 +43,19 @@ export default function Header() {
   };
   const theme = useTheme();
   const uptoMedium = useMediaQuery(theme.breakpoints.down("lg"));
+
+  useEffect(() => {
+    async function fetch() {
+      try {
+        const res = await axios.post("/api/twitter", {});
+        console.log(res);
+      } catch (e) {
+        console.log({ e });
+      }
+    }
+    fetch();
+    return () => {};
+  }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
