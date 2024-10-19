@@ -44,18 +44,18 @@ export default function Header() {
   const theme = useTheme();
   const uptoMedium = useMediaQuery(theme.breakpoints.down("lg"));
 
-  useEffect(() => {
-    async function fetch() {
-      try {
-        const res = await axios.post("/api/twitter", {});
-        console.log(res);
-      } catch (e) {
-        console.log({ e });
-      }
-    }
-    fetch();
-    return () => {};
-  }, []);
+  // useEffect(() => {
+  //   async function fetch() {
+  //     try {
+  //       const res = await axios.post("/api/twitter", {});
+  //       console.log(res);
+  //     } catch (e) {
+  //       console.log({ e });
+  //     }
+  //   }
+  //   fetch();
+  //   return () => {};
+  // }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>

@@ -18,6 +18,7 @@ import ColorModeHandler from "@/components/ColorModeHandler";
 import "@fontsource-variable/unbounded";
 import "@fontsource/syncopate";
 import "@fontsource/paytone-one";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -42,6 +43,7 @@ export default function RootLayout(props: { children: ReactNode }) {
               <Toaster />
               {props.children}
             </Container>
+            <Footer />
           </Providers>
         </ColorModeHandler>
       </body>
