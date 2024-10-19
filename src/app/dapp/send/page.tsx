@@ -15,6 +15,7 @@ import React from "react";
 import SendToWeb2 from "@/components/SendToWeb2";
 import Image from "next/image";
 import { InvitesSent } from "@/components/InvitesSent";
+import { INVITE_FEE_LABEL } from "@/util/constants";
 
 export default function Send() {
   return (
@@ -60,11 +61,11 @@ export default function Send() {
                 <Divider sx={{ width: "100%" }} />
                 <Typography>
                   Support your favourite web2 creators or your friends by
-                  inviting them on Base. Inviting a social profile on Base sends
-                  0.0001 ETH to the contract which can be claimed by the profile
-                  by submitting a zkTLS proof of account ownership. If the
-                  invited profile joins Base and creates their token, you will
-                  get free mints.
+                  inviting them on Base. Inviting a social profile on Base sends{" "}
+                  {INVITE_FEE_LABEL} to the contract which can be claimed by the
+                  profile by submitting a zkTLS proof of account ownership. If
+                  the invited profile joins Base and creates their token, you
+                  will get free mints.
                 </Typography>
               </Stack>
             </Paper>

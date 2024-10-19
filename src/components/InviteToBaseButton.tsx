@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  Alert,
   Box,
   Button,
   Dialog,
@@ -10,7 +11,7 @@ import {
 } from "@mui/material";
 import toast from "react-hot-toast";
 import { useWriteContract } from "wagmi";
-import Registry from "@/util/Registry.json";
+import Factory from "@/util/Factory.json";
 import Addresses from "@/util/Addresses.json";
 import { parseEther } from "viem";
 import {
@@ -23,8 +24,8 @@ import {
   TransactionToastLabel,
 } from "@coinbase/onchainkit/transaction";
 import { encodeFunctionData, Hex } from "viem";
-import { hardhat } from "wagmi/chains";
 import { getProviderName } from "./InvitedLeaderTable";
+import { INVITE_FEE, INVITE_FEE_LABEL } from "@/util/constants";
 
 interface InviteToBaseButtonProps {
   provider: number;
@@ -32,8 +33,8 @@ interface InviteToBaseButtonProps {
   disabled: boolean;
 }
 
-const registryContractAddress: Hex = Addresses.Registry as Hex;
-const registryContractAbi = Registry.abi;
+const factoryContractAddress: Hex = Addresses.Factory as Hex;
+const factoryContractAbi = Factory.abi;
 
 export function InviteToBaseOck({
   provider,
@@ -41,21 +42,29 @@ export function InviteToBaseOck({
   disabled,
 }: InviteToBaseButtonProps) {
   const [open, setOpen] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
   const encodedInviteData = encodeFunctionData({
-    abi: registryContractAbi,
-    functionName: "invite",
-    args: [{ provider, id }],
+    abi: factoryContractAbi,
+    functionName: "createContract",
+    args: [provider, id],
   });
 
   const calls = [
     {
-      to: registryContractAddress,
+      to: factoryContractAddress,
       data: encodedInviteData,
-      value: parseEther("0.0001"),
+      value: INVITE_FEE,
     },
   ];
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
+  const handleSuccess = () => {
+    setSuccess(true);
+  };
+  const handleError = () => {
+    setError(true);
+  };
   return (
     <>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
@@ -63,15 +72,32 @@ export function InviteToBaseOck({
           Invite {getProviderName(provider)} Profile @{id}{" "}
         </DialogTitle>
         <DialogContent>
-          <Typography>Send 0.0001 ETH to support @{id}?</Typography>
+          {!success && !error && (
+            <Typography>
+              Send {INVITE_FEE_LABEL} to support @{id}?
+            </Typography>
+          )}
+          {success && (
+            <Alert severity="success">
+              {getProviderName(provider)} user @{id} succesfully invited to Base
+            </Alert>
+          )}
+          {error && (
+            <Alert severity="error">
+              Failed to invite {getProviderName(provider)} user @{id} to Base
+            </Alert>
+          )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>
+            {success || error ? "Close" : "Cancel"}
+          </Button>
           <Box sx={{ width: 250 }}>
             <Transaction
-            
               calls={calls}
               onStatus={(status) => console.log("Transaction status:", status)}
+              onError={handleError}
+              onSuccess={handleSuccess}
             >
               <TransactionButton text="Invite" />
               <TransactionSponsor />
@@ -90,30 +116,3 @@ export function InviteToBaseOck({
     </>
   );
 }
-
-export const InviteToBaseButton = ({
-  provider,
-  id,
-}: InviteToBaseButtonProps) => {
-  const { isPending, isSuccess, isError, writeContract } = useWriteContract();
-  const delegate = () => {
-    writeContract({
-      abi: Registry.abi,
-      address: Addresses.Registry as `0x${string}`,
-      functionName: "invite",
-      args: [{ provider, id }],
-      value: parseEther("0.0001"),
-    });
-    toast((t) => <Typography>Inviting User {id} To Base</Typography>);
-  };
-  return (
-    <Button
-      variant="outlined"
-      color="secondary"
-      onClick={delegate}
-      disabled={isPending || isError || isSuccess}
-    >
-      Invite
-    </Button>
-  );
-};

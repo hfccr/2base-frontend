@@ -5,8 +5,7 @@ import { type ReactNode, useState } from "react";
 import { type State, WagmiProvider } from "wagmi";
 import { OnchainKitProvider } from "@coinbase/onchainkit";
 
-import { getConfig } from "@/wagmi";
-import { baseSepolia } from "viem/chains";
+import { primaryChain, getConfig } from "@/wagmi";
 
 export function Providers(props: {
   children: ReactNode;
@@ -20,7 +19,7 @@ export function Providers(props: {
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
           apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-          chain={baseSepolia}
+          chain={primaryChain}
         >
           {props.children}
         </OnchainKitProvider>

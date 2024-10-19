@@ -1,7 +1,6 @@
 import {
   Alert,
   AlertTitle,
-  Badge,
   Box,
   Chip,
   Paper,
@@ -10,80 +9,57 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useReadContract } from "wagmi";
-import Addresses from "../util/Addresses.json";
-import Registry from "../util/Registry.json";
+import { useAccount, useReadContract } from "wagmi";
+import Addresses from "@/util/Addresses.json";
+import Factory from "@/util/Factory.json";
 import ProviderIcon from "./ProviderIcon";
 import { getProviderName } from "./InvitedLeaderTable";
 
 type InvitesSent = {
-  id: string;
+  contractAddress: string;
+  profile: string;
   provider: number;
+  id: number;
+  inviter: string;
 };
-
-type CountedInvitesSent = {
-  id: string;
-  provider: number;
-  count: number;
-};
-
-function countItems(originalArray: InvitesSent[]): CountedInvitesSent[] {
-  const countMap = new Map<string, CountedInvitesSent>();
-  const resultArray: CountedInvitesSent[] = [];
-
-  originalArray.forEach((item) => {
-    const key = `${item.provider}-${item.id}`;
-    if (!countMap.has(key)) {
-      const countedItem: CountedInvitesSent = {
-        provider: item.provider,
-        id: item.id,
-        count: 0,
-      };
-      countMap.set(key, countedItem);
-      resultArray.push(countedItem); // Push to result to maintain order
-    }
-    countMap.get(key)!.count++; // Increment the count
-  });
-  return resultArray;
-}
 
 function truncate(str: string, n: number) {
   return str.length > n ? str.slice(0, n - 1) + "..." : str;
 }
 
 export const InvitesSent = ({}) => {
+  const { address } = useAccount();
   const {
     isError,
     isLoading,
     isSuccess,
     data: invitesSent,
   } = useReadContract({
-    abi: Registry.abi,
-    address: Addresses.Registry as `0x${string}`,
-    functionName: "getInvitedProfiles",
-    args: [],
+    abi: Factory.abi,
+    address: Addresses.Factory as `0x${string}`,
+    functionName: "getDeployedContractsByInviter",
+    args: [address],
   });
+  console.log(invitesSent);
   const invitesSentStructured =
     invitesSent === undefined ? [] : (invitesSent as InvitesSent[]);
   let inviteChips = null;
   if (isSuccess) {
-    inviteChips = countItems(invitesSentStructured).map((invite, index) => (
+    inviteChips = invitesSentStructured.map((invite, index) => (
       <Box
         key={index}
         sx={{ mr: 1, mt: 1, lineHeight: "42px" }}
         component="span"
       >
         <Tooltip
-          title={`${invite.count} invite${invite.count === 1 ? "" : "s"} sent to ${getProviderName(invite.provider)} user @${invite.id}`}
+          title={`Invite sent to ${getProviderName(invite.provider)} user @${invite.profile}`}
         >
-          <Badge badgeContent={invite.count} color="secondary">
-            <Chip
-              size="medium"
-              label={truncate(invite.id, 20)}
-              variant="outlined"
-              icon={<ProviderIcon provider={invite.provider} />}
-            />
-          </Badge>
+          <Chip
+            size="medium"
+            label={truncate(invite.profile, 20)}
+            variant="outlined"
+            icon={<ProviderIcon provider={invite.provider} />}
+          />
         </Tooltip>
       </Box>
     ));
@@ -113,7 +89,7 @@ export const InvitesSent = ({}) => {
             </Stack>
             {isSuccess && (
               <Chip
-                label={`${(invitesSentStructured.length * 0.0001).toFixed(4)} ETH Spent`}
+                label={`${(invitesSentStructured.length * 0.001).toFixed(3)} ETH Spent`}
               />
             )}
           </Stack>

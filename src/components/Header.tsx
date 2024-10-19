@@ -19,11 +19,7 @@ import { usePathname } from "next/navigation";
 import { hexToRgb } from "@/util/hexToRgb";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useAccount, useReadContract } from "wagmi";
-import Registry from "../util/Registry.json"; // Import your ABI
-import Addresses from "../util/Addresses.json";
-import { Address } from "viem";
-
+import Points from "./Points";
 
 const pages = [
   { title: "Invite", href: "/dapp/send" },
@@ -33,7 +29,6 @@ const pages = [
 
 export default function Header() {
   const pathname = usePathname();
-  const {address}=useAccount();
   const selectedIndex = pages.findIndex(
     (page) => pathname.indexOf(page.href) >= 0
   );
@@ -47,19 +42,6 @@ export default function Header() {
   };
   const theme = useTheme();
   const uptoMedium = useMediaQuery(theme.breakpoints.down("lg"));
-
-  // Fetch points from the contract
-  const { data: pointsData, isError, isFetching } = useReadContract({
-    abi: Registry.abi,
-    address: Addresses.Registry as Address,
-    functionName: "getPoints",
-    args: [address], 
-  });
-  console.log(pointsData,isError,isFetching);
-  
-
-
-  const points = pointsData ? Number(pointsData) : 0; // Convert to number for rendering
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -272,22 +254,13 @@ export default function Header() {
               >
                 <Box sx={{ minWidth: 180, textAlign: "center" }}>
                   <Connect />
-                  {/* Display points next to the Connect button */}
-                  <div style={{ marginTop: '10px' }}>
-                    {isFetching ? (
-                      <span>Loading points...</span>
-                    ) : isError ? (
-                      <span>Error fetching points</span>
-                    ) : (
-                      <span><strong>Your Points:</strong> {points}</span>
-                    )}
-                  </div>
                 </Box>
               </Box>
             </Stack>
           </Toolbar>
         </Container>
       </AppBar>
+      <Points />
       <ToggleColorMode />
     </Box>
   );
