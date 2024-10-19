@@ -90,7 +90,7 @@ export default function Header() {
                         display: {
                           xs: "none",
                           sm: "none",
-                          md: "none",
+                          md: "block",
                           lg: "block",
                         },
                         paddingTop: 2,
