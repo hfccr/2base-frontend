@@ -47,7 +47,7 @@ export default function Header() {
   useEffect(() => {
     async function fetch() {
       try {
-        const res = await axios.post("/api/twitter", {});
+        const res = await axios.post("/api/github", {});
         console.log(res);
       } catch (e) {
         console.log({ e });

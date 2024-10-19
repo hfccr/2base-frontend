@@ -20,6 +20,7 @@
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
     "@mui/material-nextjs": "^6.1.2",
+    "@octokit/auth-app": "^7.1.1",
     "@popmotion/popcorn": "^0.4.4",
     "@reclaimprotocol/js-sdk": "^2.0.1",
     "@tanstack/react-query": "5.45.1",
@@ -27,7 +28,9 @@
     "axios": "^1.7.7",
     "ethers": "^6.13.4",
     "framer-motion": "^11.11.4",
+    "jsonwebtoken": "^9.0.2",
     "next": "14.2.4",
+    "octokit": "^4.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.4.1",
@@ -41,6 +44,7 @@
     "wagmi": "latest"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^20.12.10",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
