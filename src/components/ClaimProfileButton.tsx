@@ -56,12 +56,16 @@ export default function ClaimProfileButton({
   };
   const { isPending, isSuccess, isError, error, writeContract } =
     useWriteContract();
-  const encodedClaimData = encodeFunctionData({
-    abi: Token.abi,
-    functionName: "claimTokenAccount",
-    args: [proofs?.solidityProofs],
-    // args: [proofs?.solidityProofs || proofReq, { provider, id: profile }],
-  });
+  const encodedClaimData =
+    (proofs &&
+      proofs.solidityProofs &&
+      encodeFunctionData({
+        abi: Token.abi,
+        functionName: "claimTokenAccount",
+        args: [proofs?.solidityProofs],
+        // args: [proofs?.solidityProofs || proofReq, { provider, id: profile }],
+      })) ||
+    undefined;
 
   const calls = [
     {
