@@ -1,5 +1,4 @@
 "use client";
-import ProfileBalanceCheck from "@/components/ProfileBalanceCheck";
 import TokenInfo from "@/components/TokenInfo";
 import ViewToken from "@/components/ViewToken";
 import {
@@ -28,7 +27,6 @@ export default function Page({ params }: PageProps) {
         </Breadcrumbs>
         <Typography variant="h2">Join Base</Typography> */}
         {/* <Divider /> */}
-        {/* <ProfileBalanceCheck tokenId={parseInt(tokenId)} /> */}
         {/* <ReclaimRequest /> */}
         <TokenInfo tokenId={parseInt(tokenId)} />
       </Stack>
