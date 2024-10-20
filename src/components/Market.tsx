@@ -65,6 +65,7 @@ export default function Market() {
       {isFetched && market.length > 0 && (
         <Grid container spacing={4}>
           {market
+            .reverse()
             .filter((token) => {
               if (value !== "") {
                 return (

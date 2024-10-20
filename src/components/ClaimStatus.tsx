@@ -3,11 +3,15 @@ import { MarketType } from "@/util/MarketType";
 import ClaimProfileButton from "./ClaimProfileButton";
 import { Name } from "@coinbase/onchainkit/identity";
 import { getProviderName } from "./InvitedLeaderTable";
+import { useAccount } from "wagmi";
+import ClaimEarningsButton from "./ClaimEarnings";
 
 export default function ClaimStatus({ tokenInfo }: { tokenInfo: MarketType }) {
+  const { address } = useAccount();
   const { claimed, provider, profile, profileOwner, contractAddress } =
     tokenInfo;
   const title = claimed ? "Token Claimed" : "Claim Token";
+  const isOwner = address === profileOwner;
   return (
     <Paper variant="outlined" sx={{ padding: 2 }}>
       <Stack spacing={2}>
@@ -41,6 +45,14 @@ export default function ClaimStatus({ tokenInfo }: { tokenInfo: MarketType }) {
             provider={provider}
             contractAddress={contractAddress}
           />
+          {isOwner && (
+            <ClaimEarningsButton
+              disabled={false}
+              profile={profile}
+              provider={provider}
+              contractAddress={contractAddress}
+            />
+          )}
         </Stack>
       </Stack>
     </Paper>
