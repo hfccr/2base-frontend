@@ -28,6 +28,7 @@ import { encodeFunctionData, Hex } from "viem";
 import { useWriteContract } from "wagmi";
 import { getProviderName } from "./InvitedLeaderTable";
 import ReclaimRequest from "./ReclaimRequest";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ClaimProfileButtonProps {
   disabled: boolean;
@@ -42,6 +43,7 @@ export default function ClaimProfileButton({
   profile,
   contractAddress,
 }: ClaimProfileButtonProps) {
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [proofs, setProofs] = useState<any>(null);
   const [claimSuccess, setClaimSuccess] = useState(false);
@@ -107,7 +109,10 @@ export default function ClaimProfileButton({
             <Transaction
               calls={calls}
               onStatus={handleStatusChange}
-              onSuccess={() => setClaimSuccess(true)}
+              onSuccess={() => {
+                setClaimSuccess(true);
+                queryClient.invalidateQueries();
+              }}
             >
               <TransactionButton
                 text="Claim Profile"
