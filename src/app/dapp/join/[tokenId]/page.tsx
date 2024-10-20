@@ -27,7 +27,7 @@ export default function Page({ params }: PageProps) {
           <Link href="/dapp/join">Join</Link>
         </Breadcrumbs>
         <Typography variant="h2">Join Base</Typography> */}
-        <Divider />
+        {/* <Divider /> */}
         {/* <ProfileBalanceCheck tokenId={parseInt(tokenId)} /> */}
         {/* <ReclaimRequest /> */}
         <TokenInfo tokenId={parseInt(tokenId)} />

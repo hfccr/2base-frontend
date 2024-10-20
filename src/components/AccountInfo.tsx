@@ -113,7 +113,7 @@ export default function AccountInfo({ tokenInfo }: { tokenInfo: MarketType }) {
             <ListItem>
               <ListItemText
                 primary={formatEther(fee) + " ETH"}
-                secondary="Creator Claim"
+                secondary="Creator Earnings"
               />
             </ListItem>
           </List>

@@ -79,7 +79,7 @@ export default function Token({
             <ListItem>
               <ListItemText
                 primary={formatEther(fee) + " ETH"}
-                secondary="Creator Claim"
+                secondary="Creator Earnings"
               />
             </ListItem>
             {/* <ListItem>
