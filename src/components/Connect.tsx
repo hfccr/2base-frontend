@@ -14,13 +14,15 @@ import {
   Identity,
   EthBalance,
 } from "@coinbase/onchainkit/identity";
+import { useAccount } from "wagmi";
 
 export default function Connect() {
+  const { isConnected } = useAccount();
   return (
     <Wallet>
       <ConnectWallet>
-        {/* <Avatar className="h-6 w-6" /> */}
-        {/* <Name /> */}
+        {isConnected && <Avatar className="h-6 w-6" />}
+        <Name />
       </ConnectWallet>
       <WalletDropdown>
         <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
