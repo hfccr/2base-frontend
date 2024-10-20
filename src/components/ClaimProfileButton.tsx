@@ -58,8 +58,8 @@ export default function ClaimProfileButton({
     useWriteContract();
   const encodedClaimData = encodeFunctionData({
     abi: Token.abi,
-    functionName: "claimWithoutProof",
-    args: [],
+    functionName: "claimTokenAccount",
+    args: [proofs?.solidityProofs],
     // args: [proofs?.solidityProofs || proofReq, { provider, id: profile }],
   });
 
@@ -107,7 +107,7 @@ export default function ClaimProfileButton({
             >
               <TransactionButton
                 text="Claim Profile"
-                // disabled={proofs === null}
+                disabled={proofs === null}
               />
               <TransactionSponsor />
               <TransactionToast>
