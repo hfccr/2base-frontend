@@ -3,12 +3,13 @@ import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import { useMediaQuery, useTheme } from "@mui/material";
 import Market from "./Market";
+import Footer from "./Footer";
 
 export default function Hero() {
   const theme = useTheme();
   const uptoMedium = useMediaQuery(theme.breakpoints.down("lg"));
   return (
-    <Container sx={{ mt: 2 }}>
+    <Container sx={{ mt: 2, paddingBottom: 18 }}>
       <Stack
         direction="row"
         // sx={{ minHeight: "80vh", overflow: "hidden" }}
@@ -35,6 +36,7 @@ export default function Hero() {
         </Box> */}
       </Stack>
       <Market />
+      <Footer />
     </Container>
   );
 }

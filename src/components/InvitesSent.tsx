@@ -29,6 +29,8 @@ export const InvitesSent = ({}) => {
     address: Addresses.Factory as `0x${string}`,
     functionName: "getDeployedContractsByInviter",
     args: [address],
+    scopeKey: "invite",
+    blockTag: "latest",
   });
   const invitesSentStructured =
     invitesSent === undefined ? [] : (invitesSent as MarketType[]);

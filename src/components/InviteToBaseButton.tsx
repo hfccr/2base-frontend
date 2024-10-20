@@ -27,6 +27,7 @@ import {
 import { encodeFunctionData, Hex } from "viem";
 import { getProviderName } from "./InvitedLeaderTable";
 import { INVITE_FEE, INVITE_FEE_LABEL } from "@/util/constants";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface InviteToBaseButtonProps {
   provider: number;
@@ -42,6 +43,7 @@ export function InviteToBaseOck({
   id,
   disabled,
 }: InviteToBaseButtonProps) {
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -66,6 +68,8 @@ export function InviteToBaseOck({
   const handleOpen = () => setOpen(true);
   const handleSuccess = () => {
     setSuccess(true);
+    console.log("Invalidating scope key invite");
+    queryClient.invalidateQueries({ queryKey: ["invite"] });
   };
   const handleError = () => {
     setError(true);

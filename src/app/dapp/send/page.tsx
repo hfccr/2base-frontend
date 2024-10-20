@@ -37,7 +37,6 @@ export default function Send() {
             <Chip label="Invite Web2 On Base" size="medium" />
           </Box>
         </Stack> */}
-        <Divider />
         <Stack direction={{ md: "column", lg: "row" }} spacing={4}>
           <Stack
             direction="column"
@@ -61,11 +60,7 @@ export default function Send() {
                 <Divider sx={{ width: "100%" }} />
                 <Typography>
                   Support your favourite web2 creators or your friends by
-                  inviting them on Base. Inviting a social profile on Base sends{" "}
-                  {INVITE_FEE_LABEL} to the contract which can be claimed by the
-                  profile by submitting a zkTLS proof of account ownership. If
-                  the invited profile joins Base and creates their token, you
-                  will get free mints.
+                  inviting them on Base.
                 </Typography>
               </Stack>
             </Paper>
