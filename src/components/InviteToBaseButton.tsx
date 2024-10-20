@@ -64,12 +64,14 @@ export function InviteToBaseOck({
     setOpen(false);
     setSuccess(false);
     setError(false);
+    queryClient.invalidateQueries();
   };
   const handleOpen = () => setOpen(true);
   const handleSuccess = () => {
     setSuccess(true);
     console.log("Invalidating scope key invite");
     queryClient.invalidateQueries({ queryKey: ["invite"] });
+    queryClient.invalidateQueries();
   };
   const handleError = () => {
     setError(true);

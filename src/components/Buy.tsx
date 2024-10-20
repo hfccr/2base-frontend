@@ -15,6 +15,7 @@ import {
   TransactionToastLabel,
 } from "@coinbase/onchainkit/transaction";
 import { encodeFunctionData, Hex } from "viem";
+import { useQueryClient } from "@tanstack/react-query";
 
 type CostType = {
   cost: bigint;
@@ -23,6 +24,7 @@ type CostType = {
 };
 
 export default function Buy({ tokenInfo }: { tokenInfo: MarketType }) {
+  const queryClient = useQueryClient();
   const [value, setValue] = useState(0);
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(parseInt(event.target.value));
@@ -86,7 +88,9 @@ export default function Buy({ tokenInfo }: { tokenInfo: MarketType }) {
       <Transaction
         calls={calls}
         // onStatus={handleStatusChange}
-        // onSuccess={() => setClaimSuccess(true)}
+        onSuccess={() => {
+          queryClient.invalidateQueries();
+        }}
       >
         <TransactionButton
           text="Buy"
