@@ -57,7 +57,11 @@ export function InviteToBaseOck({
       value: INVITE_FEE,
     },
   ];
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setSuccess(false);
+    setError(false);
+  };
   const handleOpen = () => setOpen(true);
   const handleSuccess = () => {
     setSuccess(true);
@@ -67,49 +71,54 @@ export function InviteToBaseOck({
   };
   return (
     <>
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-        <DialogTitle>
-          Invite {getProviderName(provider)} Profile @{id}{" "}
-        </DialogTitle>
-        <DialogContent>
-          {!success && !error && (
-            <Typography>
-              Send {INVITE_FEE_LABEL} to support @{id}?
-            </Typography>
-          )}
-          {success && (
-            <Alert severity="success">
-              {getProviderName(provider)} user @{id} succesfully invited to Base
-            </Alert>
-          )}
-          {error && (
-            <Alert severity="error">
-              Failed to invite {getProviderName(provider)} user @{id} to Base
-            </Alert>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>
-            {success || error ? "Close" : "Cancel"}
-          </Button>
-          <Box sx={{ width: 250 }}>
-            <Transaction
-              calls={calls}
-              onStatus={(status) => console.log("Transaction status:", status)}
-              onError={handleError}
-              onSuccess={handleSuccess}
-            >
-              <TransactionButton text="Invite" />
-              <TransactionSponsor />
-              <TransactionToast>
-                <TransactionToastIcon />
-                <TransactionToastLabel />
-                <TransactionToastAction />
-              </TransactionToast>
-            </Transaction>
-          </Box>
-        </DialogActions>
-      </Dialog>
+      {open && (
+        <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+          <DialogTitle>
+            Invite {getProviderName(provider)} Profile @{id}{" "}
+          </DialogTitle>
+          <DialogContent>
+            {!success && !error && (
+              <Typography>
+                Send {INVITE_FEE_LABEL} to support @{id}?
+              </Typography>
+            )}
+            {success && (
+              <Alert severity="success">
+                {getProviderName(provider)} user @{id} succesfully invited to
+                Base
+              </Alert>
+            )}
+            {error && !success && (
+              <Alert severity="error">
+                Failed to invite {getProviderName(provider)} user @{id} to Base
+              </Alert>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>
+              {success || error ? "Close" : "Cancel"}
+            </Button>
+            <Box sx={{ width: 250 }}>
+              <Transaction
+                calls={calls}
+                onStatus={(status) =>
+                  console.log("Transaction status:", status)
+                }
+                onError={handleError}
+                onSuccess={handleSuccess}
+              >
+                <TransactionButton text="Invite" />
+                <TransactionSponsor />
+                <TransactionToast>
+                  <TransactionToastIcon />
+                  <TransactionToastLabel />
+                  <TransactionToastAction />
+                </TransactionToast>
+              </Transaction>
+            </Box>
+          </DialogActions>
+        </Dialog>
+      )}
       <Button variant="outlined" onClick={handleOpen} disabled={disabled}>
         Invite
       </Button>
