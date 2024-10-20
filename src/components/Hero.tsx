@@ -15,7 +15,7 @@ export default function Hero() {
         justifyContent="center"
         alignItems="center"
       >
-        <Box
+        {/* <Box
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -32,9 +32,8 @@ export default function Hero() {
             height={uptoMedium ? 64 : 144}
             priority
           />
-        </Box>
+        </Box> */}
       </Stack>
-      <Divider sx={{ mt: 0, mb: 4 }} />
       <Market />
     </Container>
   );

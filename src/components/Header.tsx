@@ -22,11 +22,12 @@ import Image from "next/image";
 import Points from "./Points";
 import axios from "axios";
 
-const pages = [
-  { title: "Invite", href: "/dapp/send" },
-  // { title: "Join", href: "/dapp/join" },
-  // { title: "Leaderboard", href: "/dapp/leaderboard" },
-];
+type PageType = {
+  title: string;
+  href: string;
+};
+
+const pages: PageType[] = [];
 
 export default function Header() {
   const pathname = usePathname();
@@ -72,7 +73,7 @@ export default function Header() {
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Stack
-              direction={{ sm: "column", md: "row" }}
+              direction="row"
               justifyContent="space-between"
               alignItems="center"
               sx={{ width: "100%" }}
@@ -88,8 +89,8 @@ export default function Header() {
                     <Box
                       sx={{
                         display: {
-                          xs: "none",
-                          sm: "none",
+                          xs: "block",
+                          sm: "block",
                           md: "block",
                           lg: "block",
                         },
@@ -155,7 +156,7 @@ export default function Header() {
                     </Box>
                   </Stack>
                 </Link>
-                <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "none" } }}>
                   <IconButton
                     onClick={handleOpenNavMenu}
                     color="inherit"
@@ -216,7 +217,7 @@ export default function Header() {
                 >
                   2base
                 </Typography>
-                <Box
+                {/* <Box
                   sx={{
                     flexGrow: 1,
                     display: {
@@ -257,7 +258,7 @@ export default function Header() {
                       </motion.div>
                     </Link>
                   ))}
-                </Box>
+                </Box> */}
               </Stack>
               <Box
                 sx={{

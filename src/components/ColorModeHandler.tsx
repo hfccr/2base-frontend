@@ -49,7 +49,7 @@ export default function ColorModeHandler({ children }: ColorModeHandlerProps) {
           elevation={8}
           square
           sx={{
-            paddingTop: 16,
+            paddingTop: 11,
             paddingLeft: 2,
             paddingRight: 2,
             minHeight: "100%",
