@@ -57,11 +57,11 @@ export default function Token({
             </>
           }
           action={
-            <Tooltip title={`Visit ${getProviderName(provider)} Profile`}>
+            <Tooltip title={`${getProviderName(provider)} Profile`}>
               <IconButton
-                href={getProfileLink(provider, profile)}
-                target="_blank"
-                rel="noreferrer noopener"
+              // href={getProfileLink(provider, profile)}
+              // target="_blank"
+              // rel="noreferrer noopener"
               >
                 <ProviderIcon provider={provider} />
               </IconButton>
