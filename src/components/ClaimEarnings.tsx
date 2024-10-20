@@ -41,7 +41,7 @@ export default function ClaimEarningsButton({
   profile,
   contractAddress,
 }: ClaimEarningsButtonProps) {
-  const { data: feeEarnings } = useReadContract({
+  const { isFetched, data: feeEarnings } = useReadContract({
     abi: Token.abi,
     address: contractAddress as `0x${string}`,
     functionName: "feeBalance",
@@ -84,7 +84,7 @@ export default function ClaimEarningsButton({
           Claim Earnings For {getProviderName(provider)} Profile @{profile}
         </DialogTitle>
         <DialogContent>
-          {!claimSuccess && (
+          {!claimSuccess && isFetched && (
             <Typography>
               You will receive {formatEther(claimAmount)} ETH
             </Typography>

@@ -56,22 +56,9 @@ export default function ClaimProfileButton({
   };
   const { isPending, isSuccess, isError, error, writeContract } =
     useWriteContract();
-  const delegate = () => {
-    writeContract({
-      abi: Token.abi,
-      address: contractAddress as `0x${string}`,
-      functionName: "claimTokenAccount",
-      args: [proofs.solidityProofs, { provider, id: profile }],
-    });
-    toast((t) => (
-      <Typography>
-        Claiming {getProviderName(provider)} Profile @{profile}
-      </Typography>
-    ));
-  };
   const encodedClaimData = encodeFunctionData({
     abi: Token.abi,
-    functionName: "claimTokenAccount",
+    functionName: "claimWithoutProof",
     args: [],
     // args: [proofs?.solidityProofs || proofReq, { provider, id: profile }],
   });

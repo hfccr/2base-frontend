@@ -7,6 +7,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
   Typography,
 } from "@mui/material";
 import toast from "react-hot-toast";
@@ -74,12 +75,15 @@ export function InviteToBaseOck({
       {open && (
         <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
           <DialogTitle>
-            Invite {getProviderName(provider)} Profile @{id}{" "}
+            Invite {getProviderName(provider)} Profile @{id} On Base
           </DialogTitle>
+          <Divider />
           <DialogContent>
             {!success && !error && (
               <Typography>
-                Send {INVITE_FEE_LABEL} to support @{id}?
+                Inviting this user on Base will create an ERC20 token with a
+                bonding curve. The owner of this profile will be able to claim
+                the minting and burning fee generated from the token sale.
               </Typography>
             )}
             {success && (
