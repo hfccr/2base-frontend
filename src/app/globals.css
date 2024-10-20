@@ -23,3 +23,9 @@ body > .MuiPaper-root.MuiPaper-elevation {
     color: #181818;
   }
 }
+
+.token-name {
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+}
