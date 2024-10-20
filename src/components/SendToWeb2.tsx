@@ -81,13 +81,13 @@ export default function SendToWeb2() {
                   <XIcon sx={{ mr: 2 }} />
                   {getProviderName(Provider.X)}
                 </MenuItem>
-                <MenuItem value={Provider.YOUTUBE}>
+                <MenuItem value={Provider.YOUTUBE} disabled>
                   <YouTubeIcon sx={{ mr: 2 }} />
-                  {getProviderName(Provider.YOUTUBE)}
+                  {getProviderName(Provider.YOUTUBE)} Coming Soon
                 </MenuItem>
-                <MenuItem value={Provider.INSTAGRAM}>
+                <MenuItem value={Provider.INSTAGRAM} disabled>
                   <InstagramIcon sx={{ mr: 2 }} />
-                  {getProviderName(Provider.INSTAGRAM)}
+                  {getProviderName(Provider.INSTAGRAM)} Coming Soon
                 </MenuItem>
               </Select>
               <TextField
