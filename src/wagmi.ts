@@ -2,14 +2,14 @@ import { cookieStorage, createConfig, createStorage, http } from "wagmi";
 import { baseSepolia, hardhat } from "wagmi/chains";
 import { coinbaseWallet, injected, walletConnect } from "wagmi/connectors";
 
-export const primaryChain = hardhat;
+export const primaryChain = baseSepolia;
 
 export function getConfig() {
   return createConfig({
-    chains: [hardhat],
+    chains: [baseSepolia],
     connectors: [
-      injected(),
       coinbaseWallet(),
+      injected(),
       walletConnect({ projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID! }),
     ],
     storage: createStorage({
@@ -17,8 +17,8 @@ export function getConfig() {
     }),
     ssr: true,
     transports: {
-      // [baseSepolia.id]: http(),
-      [hardhat.id]: http(),
+      [baseSepolia.id]: http(),
+      // [hardhat.id]: http(),
     },
   });
 }
