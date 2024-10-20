@@ -1,6 +1,7 @@
 import { proofReq } from "@/junk/proofRequest";
 import Addresses from "@/util/Addresses.json";
-import Registry from "@/util/Registry.json";
+import Factory from "@/util/Factory.json";
+import Token from "@/util/Token.json";
 import {
   LifecycleStatus,
   Transaction,
@@ -28,19 +29,18 @@ import { useWriteContract } from "wagmi";
 import { getProviderName } from "./InvitedLeaderTable";
 import ReclaimRequest from "./ReclaimRequest";
 
-const registryContractAddress: Hex = Addresses.Registry as Hex;
-const registryContractAbi = Registry.abi;
-
 interface ClaimProfileButtonProps {
   disabled: boolean;
   provider: number;
   profile: string;
+  contractAddress: string;
 }
 
 export default function ClaimProfileButton({
   disabled,
   provider,
   profile,
+  contractAddress,
 }: ClaimProfileButtonProps) {
   const [open, setOpen] = useState(false);
   const [proofs, setProofs] = useState<any>(null);
@@ -50,28 +50,35 @@ export default function ClaimProfileButton({
   };
   console.log({ proofs });
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setClaimSuccess(false);
+  };
   const { isPending, isSuccess, isError, error, writeContract } =
     useWriteContract();
   const delegate = () => {
     writeContract({
-      abi: Registry.abi,
-      address: Addresses.Registry as `0x${string}`,
-      functionName: "claimWithProof",
+      abi: Token.abi,
+      address: contractAddress as `0x${string}`,
+      functionName: "claimTokenAccount",
       args: [proofs.solidityProofs, { provider, id: profile }],
     });
-    toast((t) => <Typography>Claiming Profile @{profile}</Typography>);
+    toast((t) => (
+      <Typography>
+        Claiming {getProviderName(provider)} Profile @{profile}
+      </Typography>
+    ));
   };
-  console.log({ isPending, isSuccess, isError, error });
   const encodedClaimData = encodeFunctionData({
-    abi: registryContractAbi,
-    functionName: "claimWithProof",
-    args: [proofs?.solidityProofs || proofReq, { provider, id: profile }],
+    abi: Token.abi,
+    functionName: "claimTokenAccount",
+    args: [],
+    // args: [proofs?.solidityProofs || proofReq, { provider, id: profile }],
   });
 
   const calls = [
     {
-      to: registryContractAddress,
+      to: contractAddress as Hex,
       data: encodedClaimData,
     },
   ];

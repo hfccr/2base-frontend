@@ -54,7 +54,7 @@ export function InviteToBaseOck({
     {
       to: factoryContractAddress,
       data: encodedInviteData,
-      value: INVITE_FEE,
+      // value: INVITE_FEE,
     },
   ];
   const handleClose = () => {

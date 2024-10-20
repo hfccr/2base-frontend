@@ -24,8 +24,8 @@ import axios from "axios";
 
 const pages = [
   { title: "Invite", href: "/dapp/send" },
-  { title: "Join", href: "/dapp/join" },
-  { title: "Leaderboard", href: "/dapp/leaderboard" },
+  // { title: "Join", href: "/dapp/join" },
+  // { title: "Leaderboard", href: "/dapp/leaderboard" },
 ];
 
 export default function Header() {

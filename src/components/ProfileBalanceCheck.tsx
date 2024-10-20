@@ -27,7 +27,13 @@ import { formatEther, parseEther, parseGwei } from "viem";
 import { useDebounce } from "use-debounce";
 import ClaimProfileButton from "./ClaimProfileButton";
 
-export default function ProfileBalanceCheck() {
+interface ProfileBalanceCheckProps {
+  tokenId: number;
+}
+
+export default function ProfileBalanceCheck({
+  tokenId,
+}: ProfileBalanceCheckProps) {
   const [provider, setProvider] = useState(Provider.GITHUB);
   const handleProviderChange = (event: SelectChangeEvent) => {
     setProvider(parseInt(event.target.value));

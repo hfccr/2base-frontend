@@ -15,14 +15,7 @@ import Factory from "@/util/Factory.json";
 import ProviderIcon from "./ProviderIcon";
 import { getProviderName } from "./InvitedLeaderTable";
 import truncate from "@/util/truncate";
-
-type InvitesSent = {
-  contractAddress: string;
-  profile: string;
-  provider: number;
-  id: number;
-  inviter: string;
-};
+import { MarketType } from "@/util/MarketType";
 
 export const InvitesSent = ({}) => {
   const { address } = useAccount();
@@ -37,9 +30,8 @@ export const InvitesSent = ({}) => {
     functionName: "getDeployedContractsByInviter",
     args: [address],
   });
-  console.log(invitesSent);
   const invitesSentStructured =
-    invitesSent === undefined ? [] : (invitesSent as InvitesSent[]);
+    invitesSent === undefined ? [] : (invitesSent as MarketType[]);
   let inviteChips = null;
   if (isSuccess) {
     inviteChips = invitesSentStructured.map((invite, index) => (

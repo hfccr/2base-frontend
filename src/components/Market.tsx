@@ -3,18 +3,7 @@ import Factory from "@/util/Factory.json";
 import Addresses from "@/util/Addresses.json";
 import { Alert, Grid, Typography } from "@mui/material";
 import Token from "./Token";
-
-type MarketType = {
-  contractAddress: string;
-  id: bigint;
-  inviter: string;
-  profile: string;
-  provider: number;
-  totalSupply: bigint;
-  fee: bigint;
-  claimed: boolean;
-  profileOwner: string;
-};
+import { MarketType } from "@/util/MarketType";
 
 export default function Market() {
   const { isError, isFetched, data } = useReadContract({

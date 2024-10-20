@@ -20,18 +20,8 @@ import truncate from "@/util/truncate";
 import { getProviderName } from "./InvitedLeaderTable";
 import { Name } from "@coinbase/onchainkit/identity";
 import { formatEther } from "viem";
-
-interface TokenInterface {
-  contractAddress: string;
-  id: bigint;
-  inviter: string;
-  profile: string;
-  provider: number;
-  totalSupply: bigint;
-  fee: bigint;
-  claimed: boolean;
-  profileOwner: string;
-}
+import { MarketType } from "@/util/MarketType";
+import Link from "next/link";
 
 export default function Token({
   contractAddress,
@@ -43,55 +33,56 @@ export default function Token({
   fee,
   claimed,
   profileOwner,
-}: TokenInterface) {
+}: MarketType) {
   const avatar = (
     <Avatar alt={profile} src={getProfileIcon(provider, profile)} />
   );
   return (
-    <Card variant="outlined" sx={{ cursor: "pointer" }}>
-      <CardHeader
-        title={truncate(profile, 20)}
-        avatar={
-          <>
-            {claimed && (
-              <Badge
-                badgeContent={"✓"}
-                color={"success"}
-                sx={{ display: claimed ? "block" : "none" }}
+    <Link href={`/dapp/join/${id}`}>
+      <Card variant="outlined" sx={{ cursor: "pointer" }}>
+        <CardHeader
+          title={truncate(profile, 20)}
+          avatar={
+            <>
+              {claimed && (
+                <Badge
+                  badgeContent={"✓"}
+                  color={"success"}
+                  sx={{ display: claimed ? "block" : "none" }}
+                >
+                  {avatar}
+                </Badge>
+              )}
+              {!claimed && avatar}
+            </>
+          }
+          action={
+            <Tooltip title={`Visit ${getProviderName(provider)} Profile`}>
+              <IconButton
+                href={getProfileLink(provider, profile)}
+                target="_blank"
+                rel="noreferrer noopener"
               >
-                {avatar}
-              </Badge>
-            )}
-            {!claimed && avatar}
-          </>
-        }
-        action={
-          <Tooltip title={`Visit ${getProviderName(provider)} Profile`}>
-            <IconButton
-              href={getProfileLink(provider, profile)}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              <ProviderIcon provider={provider} />
-            </IconButton>
-          </Tooltip>
-        }
-      />
-      <CardContent>
-        <List dense>
-          <ListItem>
-            <ListItemText
-              primary={totalSupply.toString()}
-              secondary="Total Supply"
-            />
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primary={formatEther(fee) + " ETH"}
-              secondary="Creator Claim"
-            />
-          </ListItem>
-          {/* <ListItem>
+                <ProviderIcon provider={provider} />
+              </IconButton>
+            </Tooltip>
+          }
+        />
+        <CardContent>
+          <List dense>
+            <ListItem>
+              <ListItemText
+                primary={totalSupply.toString()}
+                secondary="Total Supply"
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                primary={formatEther(fee) + " ETH"}
+                secondary="Creator Claim"
+              />
+            </ListItem>
+            {/* <ListItem>
             <ListItemText
               primary={
                 <Name
@@ -102,8 +93,9 @@ export default function Token({
               secondary="Invited By"
             />
           </ListItem> */}
-        </List>
-      </CardContent>
-    </Card>
+          </List>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }
