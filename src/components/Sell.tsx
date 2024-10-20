@@ -45,13 +45,14 @@ export default function Sell({ tokenInfo }: { tokenInfo: MarketType }) {
   });
   const cost = data as CostType;
   const encodedSellData =
-    !isNaN(value) &&
-    encodeFunctionData({
-      abi: Token.abi,
-      functionName: "sellTokens",
-      args: [value],
-      // args: [proofs?.solidityProofs || proofReq, { provider, id: profile }],
-    });
+    (!isNaN(value) &&
+      encodeFunctionData({
+        abi: Token.abi,
+        functionName: "sellTokens",
+        args: [value],
+        // args: [proofs?.solidityProofs || proofReq, { provider, id: profile }],
+      })) ||
+    undefined;
 
   const calls = [
     {

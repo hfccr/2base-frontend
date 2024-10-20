@@ -45,19 +45,20 @@ export default function Buy({ tokenInfo }: { tokenInfo: MarketType }) {
   });
   const cost = data as CostType;
   const encodedBuyData =
-    !isNaN(value) &&
-    encodeFunctionData({
-      abi: Token.abi,
-      functionName: "buyTokens",
-      args: [value],
-      // args: [proofs?.solidityProofs || proofReq, { provider, id: profile }],
-    });
+    (!isNaN(value) &&
+      encodeFunctionData({
+        abi: Token.abi,
+        functionName: "buyTokens",
+        args: [value],
+        // args: [proofs?.solidityProofs || proofReq, { provider, id: profile }],
+      })) ||
+    undefined;
 
   const calls = [
     {
       to: tokenInfo.contractAddress as Hex,
       data: encodedBuyData,
-      value: cost?.totalCost || 0,
+      value: cost?.totalCost || BigInt(0),
     },
   ];
   return (
