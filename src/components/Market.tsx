@@ -52,7 +52,7 @@ export default function Market() {
         />
         <Link href="/dapp/send">
           <Button variant="outlined" size="large">
-            Create New
+            Create New Token
           </Button>
         </Link>
       </Stack>
