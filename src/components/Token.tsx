@@ -35,7 +35,11 @@ export default function Token({
   profileOwner,
 }: MarketType) {
   const avatar = (
-    <Avatar alt={profile} src={getProfileIcon(provider, profile)} />
+    <Avatar
+      alt={profile}
+      sx={{ width: 56, height: 56 }}
+      src={getProfileIcon(provider, profile)}
+    />
   );
   return (
     <Link href={`/dapp/join/${id}`}>
