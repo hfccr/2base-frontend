@@ -319,6 +319,7 @@ export const getDesignTokens = (mode: "light" | "dark") =>
         lineHeight: 30 / 20,
       },
       button: {
+        fontFamily: ['"Unbounded Variable"', ...systemFont].join(","),
         textTransform: "initial",
         fontWeight: 700,
         letterSpacing: 0,
