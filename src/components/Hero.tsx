@@ -1,4 +1,12 @@
-import { Avatar, Box, Chip, Container, Divider, Stack } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Chip,
+  Container,
+  Divider,
+  Paper,
+  Stack,
+} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import { useMediaQuery, useTheme } from "@mui/material";
@@ -10,6 +18,12 @@ export default function Hero() {
   const uptoMedium = useMediaQuery(theme.breakpoints.down("lg"));
   return (
     <Container sx={{ mt: 2, paddingBottom: 18 }}>
+      <Paper variant="outlined" sx={{ padding: 2, marginBottom: 2 }}>
+        <Typography>
+          Pump your favourite web2 creators and friends by creating a fair
+          launch token linked to their profile
+        </Typography>
+      </Paper>
       <Stack
         direction="row"
         // sx={{ minHeight: "80vh", overflow: "hidden" }}
