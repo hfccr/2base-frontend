@@ -22,8 +22,8 @@ import "@fontsource/paytone-one";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "2based",
-  description: "Bring Web2 To Base",
+  title: "Linked Tokens",
+  description: "A New Asset Class",
 };
 
 export default function RootLayout(props: { children: ReactNode }) {

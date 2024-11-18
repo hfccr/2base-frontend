@@ -81,13 +81,13 @@ export default function Header() {
                           md: "block",
                           lg: "block",
                         },
-                        paddingTop: 2,
+                        paddingTop: 0,
                         cursor: "pointer",
                       }}
                     >
                       <motion.div
                         className="container"
-                        whileHover={{ scale: 1.2, rotate: 180 }}
+                        whileHover={{ scale: 1.1, rotate: 180 }}
                         whileTap={{
                           scale: 0.8,
                           rotate: -40,
@@ -102,10 +102,10 @@ export default function Header() {
                         }}
                       >
                         <Image
-                          src="/bridge.svg"
-                          alt="logo-image"
-                          width={uptoMedium ? 32 : 72}
-                          height={uptoMedium ? 32 : 72}
+                          src="/link.svg"
+                          alt="link"
+                          width={uptoMedium ? 32 : 56}
+                          height={uptoMedium ? 32 : 56}
                           priority
                         />
                       </motion.div>
@@ -116,7 +116,7 @@ export default function Header() {
                       }}
                     >
                       <Typography
-                        variant="h1"
+                        variant="h5"
                         component="div"
                         sx={{
                           cursor: "pointer",
@@ -128,7 +128,7 @@ export default function Header() {
                           },
                         }}
                       >
-                        2base
+                        link.fun
                       </Typography>
                       <Typography
                         variant="h3"
@@ -138,7 +138,7 @@ export default function Header() {
                           display: { xs: "none", md: "flex", lg: "none" },
                         }}
                       >
-                        2base
+                        link.fun
                       </Typography>
                     </Box>
                   </Stack>
@@ -190,7 +190,7 @@ export default function Header() {
                     flexGrow: 1,
                   }}
                 >
-                  2base
+                  link.fun
                 </Typography>
                 <Typography
                   variant="h6"
@@ -202,7 +202,7 @@ export default function Header() {
                     flexGrow: 1,
                   }}
                 >
-                  2base
+                  link.fun
                 </Typography>
                 {/* <Box
                   sx={{
